@@ -33,7 +33,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const destination = path.resolve(__dirname, 'dist');
 
 // define server paths
-const serverEntry = './src/server/index.ts';
+const serverEntry = './src/server/index.js';
 
 // define appsscript.json file path
 const copyAppscriptEntry = './appsscript.json';
@@ -43,24 +43,12 @@ const devDialogEntry = './dev/index.js';
 
 // define client entry points and output names
 const clientEntrypoints = [
-  {
-    name: 'CLIENT - Dialog Demo',
-    entry: './src/client/dialog-demo/index.js',
-    filename: 'dialog-demo', // we'll add the .html suffix to these
-    template: './src/client/dialog-demo/index.html',
-  },
-  {
-    name: 'CLIENT - Dialog Demo Bootstrap',
-    entry: './src/client/dialog-demo-bootstrap/index.js',
-    filename: 'dialog-demo-bootstrap',
-    template: './src/client/dialog-demo-bootstrap/index.html',
-  },
-  {
-    name: 'CLIENT - Sidebar About Page',
-    entry: './src/client/sidebar-about-page/index.js',
-    filename: 'sidebar-about-page',
-    template: './src/client/sidebar-about-page/index.html',
-  },
+{ 
+  name: 'CLIENT',
+  entry: './src/client/index.js',
+  filename: 'index', // we'll add the .html suffix to these
+  template: './src/client/index.html',
+}
 ];
 
 // define certificate locations

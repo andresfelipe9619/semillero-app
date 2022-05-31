@@ -34,11 +34,19 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
+    "@date-io/date-fns": "^2.14.0",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@material-ui/pickers": "^3.3.10",
+    "clsx": "^1.1.1",
+    "date-fns": "^2.28.0",
+    "formik": "^2.2.9",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
-    "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
-    "react-transition-group": "^4.4.2"
+    "react-transition-group": "^4.4.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
