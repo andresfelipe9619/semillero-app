@@ -6,13 +6,13 @@ export default function FormInput({
   label,
   values,
   type,
+  disabled,
   required = true,
   isSubmitting,
   handleChange,
   handleBlur,
   errors,
   touched,
-  ...fieldProps
 }) {
   return (
     <TextField
@@ -20,7 +20,7 @@ export default function FormInput({
       id={name}
       label={label}
       required={required}
-      disabled={isSubmitting}
+      disabled={disabled || isSubmitting}
       onBlur={handleBlur}
       onChange={handleChange}
       value={values[name] || ''}
@@ -28,7 +28,6 @@ export default function FormInput({
       error={!!touched[name] && !!errors[name]}
       variant="outlined"
       helperText={!!touched[name] && errors[name] ? errors[name] : ''}
-      {...fieldProps}
     />
   );
 }

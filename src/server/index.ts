@@ -11,16 +11,16 @@ import {
   getCurrentPeriodStudents,
   getHeadersFromSheet,
   jsonToSheetValues,
-} from './utils/sheets';
+} from './sheets';
 
-import { createPersonFile, uploadStudentFiles } from './utils/drive';
+import { createPersonFile, uploadStudentFiles } from './drive';
 
 import {
   getModulesByGrades,
   createModulesSheets,
   addStudentToModuleSheet,
   validateModule,
-} from './utils/modules';
+} from './modules';
 
 import {
   doGet,

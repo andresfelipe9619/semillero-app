@@ -1,6 +1,6 @@
-import { sendConfirmationEmail } from './utils/email';
-import { addStudentToModuleSheet, validateModule } from './utils/modules';
-import { getPersonFolder, uploadStudentFiles } from './utils/drive';
+import { sendConfirmationEmail } from './email';
+import { addStudentToModuleSheet, validateModule } from './modules';
+import { getPersonFolder, uploadStudentFiles } from './drive';
 import {
   getSheetFromSpreadSheet,
   getRawDataFromSheet,
@@ -11,7 +11,7 @@ import {
   getCurrentPeriodStudents,
   getHeadersFromSheet,
   jsonToSheetValues,
-} from './utils/sheets';
+} from './sheets';
 
 const GENERAL_DB =
   'https://docs.google.com/spreadsheets/d/1TsbNe2yNzhhmJ4vwyS3X0qztIP8kdKeSgoFY95C5-5U/edit#gid=0';

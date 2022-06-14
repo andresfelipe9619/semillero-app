@@ -5,7 +5,8 @@ import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
 import { initialValues, testValues, validationSchema } from './form-settings';
 import { useAlertDispatch } from '../../context/Alert';
-import API from '../../api';
+
+import { serverFunctions } from '../../utils/serverFunctions';
 
 let currentPeriod = null;
 // const filesByname = {};
@@ -13,7 +14,7 @@ let currentPeriod = null;
 const MODULES = { byGrades: null, all: null, byArea: null };
 
 const Content = [FirstPage, SecondPage];
-
+console.log('API', serverFunctions);
 export default function Home() {
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ export default function Home() {
 
   const fetchModulesByGrades = async () => {
     try {
-      const result = await API.getModulesByGrades();
+      const result = await serverFunctions.getModulesByGrades();
       onSuccessGrades(result);
     } catch (error) {
       errorHandler(error);
@@ -116,7 +117,7 @@ export default function Home() {
     const periodName = currentPeriod;
     if (data[periodName]) {
       try {
-        const result = API.getModules();
+        const result = serverFunctions.getModules();
         onSuccess(result);
       } catch (error) {
         errorHandler(error);
@@ -156,7 +157,7 @@ export default function Home() {
 
   const fetchCurrentPeriodData = async () => {
     try {
-      const result = await API.getCurrentPeriodData();
+      const result = await serverFunctions.getCurrentPeriodData();
       console.log('result', result);
       loadCurrentPeriodData(result);
     } catch (error) {
@@ -172,7 +173,7 @@ export default function Home() {
 
   const authenticateCurrentUser = async () => {
     try {
-      const result = await API.isAdmin();
+      const result = await serverFunctions.isAdmin();
       onSuccessAuth(result);
     } catch (error) {
       errorHandler(error);
