@@ -22,12 +22,28 @@ import {
   validateModule,
 } from './utils/modules';
 
-import { doGet, doPost, isAdmin } from './app';
+import {
+  doGet,
+  isAdmin,
+  doPost,
+  readRequestParameter,
+  editStudent,
+  editStudentActualPeriod,
+  getCurrentPeriodData,
+  buscarPersona,
+  registerStudent,
+} from './app';
 
 export {
   doGet,
   doPost,
   isAdmin,
+  readRequestParameter,
+  editStudent,
+  editStudentActualPeriod,
+  getCurrentPeriodData,
+  buscarPersona,
+  registerStudent,
   getModulesByGrades,
   createModulesSheets,
   addStudentToModuleSheet,
