@@ -1,5 +1,5 @@
 import React from 'react';
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import GlobalState from './context/GlobalState';
 import AppRouter from './AppRouter';
 
@@ -51,9 +51,9 @@ const theme = createTheme({
 });
 const App = () => (
   <GlobalState>
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <AppRouter />
-    </MuiThemeProvider>
+    </ThemeProvider>
   </GlobalState>
 );
 

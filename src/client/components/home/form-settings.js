@@ -5,65 +5,94 @@ const SUPPORTED_FORMATS = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ];
 
-const testValues = {
-  model: 'A',
-  builder: 'B',
-  zone: 'C',
-  lastName: 'SUAREZ',
-  address: 'Mariano Ramos',
-  drywallFootage: '2222',
-  footGarage: '2222',
-  footHouse: '2222',
-  footExterior: '2222',
+const initialValues = {
+  nombre: '',
+  apellido: '',
+  tipo_doc: '',
+  ciudad_doc: '',
+  num_doc: '',
+  email: '',
+  confirmEmail: '',
+  genero: '',
+  nacimiento: '',
+  tel_fijo: '',
+  tel_celular: '',
+  direccion: '',
+  ciudad_res: '',
+  comuna_res: '',
+  depto_res: '',
+  eps: '',
+  otraeps: '',
+  colegio: '',
+  estamento: '',
+  grado: '',
+  nombre_acudiente: '',
+  tel_acudiente: '',
+  inscrito_anterior: '',
+  curso_anterior: '',
+  seleccion: '',
+  convenio: '',
+  val_consignado: '',
+  val_consignar: '',
+  recibo_consignacion: '',
+  fecha_consignacion: '',
+  terminos: '',
+  photo: '',
+  docFile: '',
+  constanciaEstudFile: '',
+  constanciaFuncFile: '',
+  reciboFile: '',
+  recibosPublicos: '',
+  cartaSolicitud: '',
+  actaGrado: '',
 };
 
-const setDefaultValue = (o, key) => ({ ...o, [key]: '' });
+const testValues = { ...initialValues };
 
-const getInitialValues = (filesFields = []) => ({
-  model: '',
-  builder: '',
-  idHr: '',
-  zone: '',
-  lastName: '',
-  address: '',
-  drywallFootage: 0,
-  footGarage: 0,
-  footHouse: 0,
-  footExterior: 0,
-  ...filesFields.reduce(setDefaultValue, {}),
-});
-
-const defaultSchema = {
-  drywallFootage: Yup.number().required('Obligatory field'),
-  footGarage: Yup.number().required('Obligatory field'),
-  footHouse: Yup.number().required('Obligatory field'),
-  footExterior: Yup.number().required('Obligatory field'),
-  model: Yup.object().required('Obligatory field'),
-  builder: Yup.object().required('Obligatory field'),
-  zone: Yup.string().required('Obligatory field'),
-  lastName: Yup.string().required('Obligatory field'),
+const validationSchema = {
+  nombre: Yup.string().required(),
+  apellido: Yup.string().required(),
+  tipo_doc: Yup.string().required(),
+  ciudad_doc: Yup.string().required(),
+  num_doc: Yup.string().required(),
+  email: Yup.string()
+    .email()
+    .required(),
+  confirmEmail: Yup.string()
+    .email()
+    .required(),
+  genero: Yup.string().required(),
+  nacimiento: Yup.string().required(),
+  tel_fijo: Yup.string().required(),
+  tel_celular: Yup.string().required(),
+  direccion: Yup.string().required(),
+  ciudad_res: Yup.string().required(),
+  comuna_res: Yup.string().required(),
+  depto_res: Yup.string().required(),
+  eps: Yup.string().required(),
+  otraeps: Yup.string().required(),
+  colegio: Yup.string().required(),
+  estamento: Yup.string().required(),
+  grado: Yup.string().required(),
+  nombre_acudiente: Yup.string().required(),
+  tel_acudiente: Yup.string().required(),
+  inscrito_anterior: Yup.string().required(),
+  curso_anterior: Yup.string().required(),
+  seleccion: Yup.string().required(),
+  convenio: Yup.string().required(),
+  val_consignado: Yup.number().required(),
+  val_consignar: Yup.number().required(),
+  recibo_consignacion: Yup.string().required(),
+  fecha_consignacion: Yup.string().required(),
+  terminos: Yup.string().required(),
+  photo: Yup.string().required(),
+  docFile: Yup.string().required(),
+  constanciaEstudFile: Yup.string().required(),
+  constanciaFuncFile: Yup.string().required(),
+  reciboFile: Yup.string().required(),
+  recibosPublicos: Yup.string().required(),
+  cartaSolicitud: Yup.string().required(),
+  actaGrado: Yup.string().required(),
 };
 
-const updateValidationSchema = Yup.object().shape({
-  ...defaultSchema,
-});
-
-const createValidationSchema = Yup.object().shape({
-  ...defaultSchema,
-  address: Yup.string().required('Obligatory field'),
-  // houseFile: Yup.mixed()
-  //   .required('The file is required')
-  //   .test(
-  //     'fileSize',
-  //     'File too big!',
-  //     value => value && value.size <= FILE_SIZE
-  //   ),
-});
-
-export {
-  getInitialValues,
-  testValues,
-  SUPPORTED_FORMATS,
-  createValidationSchema,
-  updateValidationSchema,
-};
+export { initialValues, testValues, SUPPORTED_FORMATS, validationSchema };

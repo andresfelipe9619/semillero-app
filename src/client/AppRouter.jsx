@@ -1,14 +1,14 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import { makeStyles } from '@mui/styles';
 import Alert from './components/alert/Alert';
 import Home from './components/home/Home';
 
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(4, 8),
-    height: '100vh',
+    height: '100%',
     backgroundColor: theme.palette.primary.main,
   },
 }));

@@ -25,8 +25,9 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "react/prop-types": "warn",
+    "react/prop-types": "off",
     "camelcase": "warn",
+    "no-console": "off",
     "import/prefer-default-export": "warn",
     "import/no-extraneous-dependencies": "warn",
     "prefer-object-spread": "warn",
