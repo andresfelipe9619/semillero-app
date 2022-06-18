@@ -8,24 +8,118 @@ import { useAlertDispatch } from '../../context/Alert';
 
 import { serverFunctions } from '../../utils/serverFunctions';
 
-let currentPeriod = null;
-// const filesByname = {};
-// const PRICE_DATA = { estate: null, moduleCode: null, agreement: null };
-const MODULES = { byGrades: null, all: null, byArea: null };
+const PRICE_DATA = { estate: null, moduleCode: null, agreement: null };
 
 const Content = [FirstPage, SecondPage];
 console.log('API', serverFunctions);
 export default function Home() {
-  const [accepted, setAccepted] = useState(false);
+  const [accepted, setAccepted] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const [modules, setModules] = useState([]);
+  const [currentPeriod, setCurrentPeriod] = useState(null);
+  const [modulesByArea, setModulesByArea] = useState([]);
+  const [modulesByGrade, setModulesByGrade] = useState([]);
+  const [filesByName, setfilesByName] = useState({});
+  const [priceData, setPriceData] = useState(PRICE_DATA);
   const { openAlert } = useAlertDispatch();
+
+  function errorHandler(error) {
+    console.log('Error Handler ==>', error);
+    openAlert({
+      message: String(error),
+      variant: 'error',
+    });
+  }
+
+  function fileUploaded(status) {
+    console.log('Estatus', status);
+    if (status === 'exito') {
+      openAlert({
+        message:
+          'La inscripción se realizó satisfactoriamente!\nRecibiras un correo para confirmar los datos de tu inscripcion.\nFavor entregar el recibo original el primer dia de clases a los monitores',
+        variant: 'success',
+      });
+    }
+    openAlert({ message: status, variant: 'error' });
+  }
+
+  function getPaymentLink() {
+    const { moduleCode, estate, agreement } = PRICE_DATA;
+    const module = modules.find(m => m.codigo === moduleCode);
+    console.log('LINK {module, estate}', { module, estate });
+    if (!module || !estate) return null;
+    let link = '';
+    // const payed = $('#val_consignado').val();
+    if (estate === 'PRIVADO') link = module.link_privado;
+    if (estate === 'PUBLICO') link = module.link_publico;
+    if (estate === 'COBERTURA') link = module.link_publico;
+    // Univalle overrides whatever estate is selected
+    if (agreement === 'RELACION_UNIVALLE') link = module.link_univalle;
+    console.log('link', link);
+    return link;
+  }
+
+  function getFile(file) {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onerror = event => {
+        reader.abort();
+        errorHandler(event);
+      };
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // function openPaymentLink() {
+  //   const link = getPaymentLink();
+  //   if (link) window.open(link, '_blank');
+  // }
+
+  const getFileName = (fileKey, doc) => {
+    if (fileKey === 'docFile') return `${doc}_DOCUMENTO`;
+    if (fileKey === 'constanciaEstudFile') return `${doc}_COSNTANCIA_ESTUDIO`;
+    if (fileKey === 'reciboFile') return `${doc}_RECIBO_PAGO`;
+    if (fileKey === 'constanciaFuncFile')
+      return `${doc}_CONSTANCIA_FUNCIONARIO`;
+    if (fileKey === 'recibosPublicos') return `${doc}_RECIBO_PUBLICOS`;
+    if (fileKey === 'cartaSolicitud') return `${doc}_CARTA_SOLICITUD`;
+    if (fileKey === 'actaGrado') return `${doc}_ACTA_GRADO`;
+    if (fileKey === 'photo') return `${doc}_FOTO_PERFIL`;
+    return null;
+  };
+
+  async function getFilesData(formData) {
+    const filesPromises = Object.keys(filesByName).map(async fileKey => {
+      const doc = formData.num_doc;
+
+      const fileString = await getFile(filesByName[fileKey]);
+      const file = { base64: fileString, name: getFileName(fileKey, doc) };
+      return file;
+    });
+
+    const files = await Promise.all(filesPromises);
+    return files;
+  }
+
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit(values) {
-      console.log('values', values);
+    async onSubmit(values) {
+      setLoading(true);
+      const files = await getFilesData(values);
+      const link = getPaymentLink();
+      // openPaymentLink();
+      try {
+        const result = await serverFunctions.registerStudent(
+          JSON.stringify({ ...values, link, files })
+        );
+        fileUploaded(result);
+      } catch (error) {
+        errorHandler(error);
+      }
     },
   });
 
@@ -50,24 +144,10 @@ export default function Home() {
     setPage(page - 1);
   }
 
-  function errorHandler(error) {
-    console.log('Error Handler ==>', error);
-    openAlert({
-      message: String(error),
-      variant: 'error',
-    });
-  }
-
-  function onSuccessGrades(modules) {
-    console.log('modules', modules);
-    if (!modules) return;
-    MODULES.byGrades = modules;
-  }
-
   const fetchModulesByGrades = async () => {
     try {
       const result = await serverFunctions.getModulesByGrades();
-      onSuccessGrades(result);
+      setModulesByGrade(result);
     } catch (error) {
       errorHandler(error);
     }
@@ -75,36 +155,7 @@ export default function Home() {
 
   function fillInDataInForm(person) {
     const { data } = person;
-    // const selects = ['depto_res', 'grado'];
-    // for (prop in data) {
-    //   $(`#${prop}`).val(String(data[prop]));
-    //   if (selects.includes(prop)) {
-    //     $(`#${prop}`).trigger('change');
-    //   }
-    // }
-    // $('#confirmEmail').val(data.email);
-    // if (data.terminos === 'Acepto') {
-    //   $('#terminos').prop('checked', true);
-    // }
-    // $('#confirmEmail').val(data.email);
-    // if (data.otraeps) {
-    //   $('#eps').val('OTRA');
-    //   $('#eps').trigger('change');
-    //   $('#otraeps').val(data.eps);
-    // }
-    // if (data.inscrito_anterior !== 'NO') {
-    //   console.log('atleast');
-    //   $('#inscrito_anterior').val('SI');
-    //   $('#inscrito_anterior').trigger('change');
-    //   $('#curso_anterior').val(data.inscrito_anterior);
-    //   $('#curso_anterior').trigger('change');
-    // }
 
-    // if (data.convenio) {
-    //   const convenio = data.convenio.toLowerCase();
-    //   $(`#${convenio}`).prop('checked', true);
-    //   $(`#${convenio}`).trigger('change');
-    // }
     function onSuccess() {
       // for (const x in modules) {
       //   if (modules[x][0] === data[periodName]) {
@@ -130,29 +181,24 @@ export default function Home() {
     fillInDataInForm({ data: testValues });
   }
 
-  function loadModules() {
-    const modulesByArea = MODULES.all
+  function loadModules(allModules) {
+    const areaModules = allModules
       .filter(module => module.disabled !== 'x')
       .reduce((acc, module) => {
         const { area } = module;
-        if (acc[area]) {
-          acc[area].push(module);
-        } else {
-          acc[area] = [module];
-        }
+        if (acc[area]) acc[area].push(module);
+        else acc[area] = [module];
         return acc;
       }, {});
-    MODULES.byArea = modulesByArea;
-    // setModulesSelectionHTML(modulesByArea);
-    // populateModulesSelect(MODULES.all);
+    setModulesByArea(areaModules);
   }
 
   function loadCurrentPeriodData(data) {
     if (!data) return;
     console.log('Current Period Data', data);
-    currentPeriod = data.currentPeriod;
-    MODULES.all = data.modules;
-    loadModules();
+    setCurrentPeriod(data.currentPeriod);
+    setModules(data.modules);
+    loadModules(data.modules);
   }
 
   const fetchCurrentPeriodData = async () => {
@@ -214,15 +260,15 @@ export default function Home() {
   // function handleFileChange(e) {
   //   const { name } = e.target;
   //   const file = this.files[0];
-  //   filesByname[name] = file;
-  //   console.log('filesByname', filesByname);
+  //   filesByName[name] = file;
+  //   console.lNg('filesByname', filesByName);
   // }
 
   // function readURL(input, name) {
   //   try {
   //     const file = input.files[0];
   //     if (input.files && file) {
-  //       filesByname[name] = file;
+  //       filesByName[name] = file;
   //       const reader = new FileReader();
   //       reader.readAsDataURL(file);
   //       reader.onloadend = () => {
@@ -405,7 +451,7 @@ export default function Home() {
   //   };
   //   if (!valid) return;
   //   const form = $('#myForm');
-  //   const dataToEdit = await getFormData(form);
+  //   const dataToEdit = await getFilesData(form);
   //   // $('#save').attr('disabled', true);
   //   try {
   //     const result = await API.editStudent(JSON.stringify(dataToEdit))();
@@ -467,108 +513,12 @@ export default function Home() {
   //   fillInDataInForm(person);
   // }
 
-  // const getFileName = (fileKey, doc) => {
-  //   if (fileKey === 'docFile') return `${doc}_DOCUMENTO`;
-  //   if (fileKey === 'constanciaEstudFile') return `${doc}_COSNTANCIA_ESTUDIO`;
-  //   if (fileKey === 'reciboFile') return `${doc}_RECIBO_PAGO`;
-  //   if (fileKey === 'constanciaFuncFile')
-  //     return `${doc}_CONSTANCIA_FUNCIONARIO`;
-  //   if (fileKey === 'recibosPublicos') return `${doc}_RECIBO_PUBLICOS`;
-  //   if (fileKey === 'cartaSolicitud') return `${doc}_CARTA_SOLICITUD`;
-  //   if (fileKey === 'actaGrado') return `${doc}_ACTA_GRADO`;
-  //   if (fileKey === 'photo') return `${doc}_FOTO_PERFIL`;
-  //   return null;
-  // };
-
-  // async function getFormData() {
-  // const serializedForm = $form.serializeArray();
-  // const formData = {};
-
-  // $.map(serializedForm, input => {
-  //   formData[input.name] = input.value;
-  // });
-
-  // const filesPromises = Object.keys(filesByname).map(fileKey => {
-  //   const doc = formData.num_doc;
-  //   return new Promise(async resolve => {
-  //     const fileString = await getFile(filesByname[fileKey]);
-  //     const file = { base64: fileString, name: getFileName(fileKey, doc) };
-  //     resolve(file);
-  //   });
-  // });
-
-  // const files = await Promise.all(filesPromises);
-  // formData = { ...formData, files };
-  // console.log('formData', formData);
-  // return formData;
-  // }
-
   // function getRequestPayload() {
   //   google.script.url.getLocation(location => {
   //     const payload = location.parameter.test || null;
   //     if (payload) return fillInTestData();
   //     return null;
   //   });
-  // }
-
-  // function getFile(file) {
-  //   return new Promise(resolve => {
-  //     const reader = new FileReader();
-  //     reader.onerror = event => {
-  //       reader.abort();
-  //       errorHandler(event);
-  //     };
-  //     reader.onloadend = () => resolve(reader.result);
-  //     reader.readAsDataURL(file);
-  //   });
-  // }
-
-  // function fileUploaded(status) {
-  //   console.log('Estatus', status);
-  //   if (status === 'exito') {
-  //     openAlert({
-  //       message:
-  //         'La inscripción se realizó satisfactoriamente!\nRecibiras un correo para confirmar los datos de tu inscripcion.\nFavor entregar el recibo original el primer dia de clases a los monitores',
-  //       variant: 'success',
-  //     });
-  //   }
-  //   openAlert({ message: status, variant: 'error' });
-  // }
-
-  // function getPaymentLink() {
-  //   const { moduleCode, estate, agreement } = PRICE_DATA;
-  //   const module = MODULES.all.find(m => m.codigo === moduleCode);
-  //   console.log('LINK {module, estate}', { module, estate });
-  //   if (!module || !estate) return null;
-  //   let link = '';
-  //   // const payed = $('#val_consignado').val();
-  //   if (estate === 'PRIVADO') link = module.link_privado;
-  //   if (estate === 'PUBLICO') link = module.link_publico;
-  //   if (estate === 'COBERTURA') link = module.link_publico;
-  //   // Univalle overrides whatever estate is selected
-  //   if (agreement === 'RELACION_UNIVALLE') link = module.link_univalle;
-  //   console.log('link', link);
-  //   return link;
-  // }
-
-  // async function submitHandler() {
-  //   setLoading(true);
-  //   const form = $('#myForm');
-  //   const formData = await getFormData(form);
-  //   formData.link = getPaymentLink();
-  //   console.log('FORM-->', { form, formData });
-  //   // openPaymentLink();
-  //   try {
-  //     const result = await API.registerStudent(JSON.stringify(formData));
-  //     fileUploaded(result);
-  //   } catch (error) {
-  //     errorHandler(error);
-  //   }
-  // }
-
-  // function openPaymentLink() {
-  //   const link = getPaymentLink();
-  //   if (link) window.open(link, '_blank');
   // }
 
   function init() {
@@ -603,6 +553,8 @@ export default function Home() {
     handleNextPage,
     handlePrevPage,
     loading,
+    modules,
+    modulesByArea,
     isUserAdmin,
     ...inputProps,
   };

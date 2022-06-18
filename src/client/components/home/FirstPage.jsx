@@ -3,6 +3,7 @@ import React from 'react';
 import Card from '../card/Card';
 import CheckboxesGroup from '../form-page/FormCheckbox';
 import FormInput from '../form-page/FormInput';
+import FormSelect from '../form-page/FormSelect';
 
 const GenreOptions = [
   { value: 'M', label: 'Masculino' },
@@ -10,7 +11,7 @@ const GenreOptions = [
   { value: 'otro', label: 'Otro' },
 ];
 
-export default function FirstPage({ handleNextPage, ...formik }) {
+export default function FirstPage({ handleNextPage, modules, ...formik }) {
   return (
     <Card useRight={false}>
       <Grid container spacing={3}>
@@ -132,9 +133,13 @@ export default function FirstPage({ handleNextPage, ...formik }) {
           />
         </Grid>
         <Grid item md={6}>
-          <FormInput
+          <FormSelect
             label="Curso Anterior"
             name={'curso_anterior'}
+            options={modules.map(({ nombre }) => ({
+              label: nombre,
+              value: nombre,
+            }))}
             {...formik}
           />
         </Grid>
