@@ -7,13 +7,22 @@ export const getFile = file => {
   });
 };
 
+export function removeSpaces(string) {
+  const normalized = string.replace(/\s+/g, '');
+  return normalized;
+}
+
+export function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export const getFileSize = fileSize => {
   let size = fileSize;
   const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
   let i = 0;
   while (size > 900) {
     size /= 1024;
-    i++;
+    i += 1;
   }
   const exactSize = `${Math.round(size * 100) / 100} ${fSExt[i]}`;
   return exactSize;

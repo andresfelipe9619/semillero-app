@@ -9,7 +9,7 @@ export default function Card({ children, useRight = true }) {
     <Box display="flex" alignItems="center" width="100%" px={8} py={4}>
       <Paper
         px={6}
-        pt={12}
+        pt={useRight ? 6 : 12}
         pb={6}
         elevation={6}
         component={Box}
