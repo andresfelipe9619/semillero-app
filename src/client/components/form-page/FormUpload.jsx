@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-export default function FormUpload({ name, label }) {
+export default function FormUpload({ name, label, handleChange }) {
   return (
     <>
       <input
@@ -10,6 +10,7 @@ export default function FormUpload({ name, label }) {
         type="file"
         id={`${name}-button-file`}
         accept="application/pdf"
+        onChange={handleChange}
       />
       <label htmlFor={`${name}-button-file`}>
         {label}

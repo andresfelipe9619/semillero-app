@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
 export default function CheckboxesGroup(props) {
   const classes = useStyles();
   const { name, legend, options, values, handleChange } = props;
-  console.log('props', props);
   return (
     <div className={classes.root}>
       <FormControl component="fieldset" className={classes.formControl}>

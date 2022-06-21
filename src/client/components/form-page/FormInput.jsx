@@ -10,6 +10,7 @@ export default function FormInput({
   required = true,
   isSubmitting,
   handleChange,
+  helperText,
   handleBlur,
   errors,
   touched,
@@ -27,7 +28,9 @@ export default function FormInput({
       type={type}
       error={!!touched[name] && !!errors[name]}
       variant="outlined"
-      helperText={!!touched[name] && errors[name] ? errors[name] : ''}
+      helperText={
+        !!touched[name] && errors[name] ? errors[name] : helperText || ''
+      }
     />
   );
 }
