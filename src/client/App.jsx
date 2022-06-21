@@ -1,5 +1,7 @@
 import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import GlobalState from './context/GlobalState';
 import AppRouter from './AppRouter';
 
@@ -52,7 +54,9 @@ const theme = createTheme({
 const App = () => (
   <GlobalState>
     <ThemeProvider theme={theme}>
-      <AppRouter />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <AppRouter />
+      </LocalizationProvider>
     </ThemeProvider>
   </GlobalState>
 );
