@@ -1,6 +1,5 @@
-import { Button, Grid, Typography, Avatar } from '@mui/material';
+import { Button, Grid, Typography, Avatar, Box } from '@mui/material';
 import React, { useState } from 'react';
-import { Box } from '@mui/system';
 import useErrorHandler from '../../hooks/useErrorHandler';
 import EPSs from '../../utils/eps';
 import Card from '../card/Card';
@@ -35,7 +34,7 @@ const NumberOfSchoolGrades = 11;
 
 const GradeOptions = Array.from(
   { length: NumberOfSchoolGrades + 1 },
-  (v, i) => {
+  (_, i) => {
     const isLast = i === NumberOfSchoolGrades;
     const grade = i + 1;
     return {
