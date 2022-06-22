@@ -198,6 +198,7 @@ export default function FormPage({ editing }) {
     errors,
     touched,
   };
+  console.log('{ values, errors }', { values, errors });
 
   if (!accepted) return <TermsAndConditions onClick={handleSellingSoul} />;
   const Form = Content[page];
