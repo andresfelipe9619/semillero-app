@@ -7,6 +7,7 @@ import Home from './components/home/Home';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    minHeight: '100vh',
     padding: theme.spacing(4, 8),
     height: '100%',
     backgroundColor: theme.palette.primary.main,
