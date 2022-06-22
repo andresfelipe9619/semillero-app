@@ -27,7 +27,7 @@ export default function FormSelect({
         value={values[name] || ''}
         onChange={handleChange}
       >
-        {options.map((d, i) => (
+        {(options || []).map((d, i) => (
           <MenuItem key={i} value={d.value}>
             {d.label}
           </MenuItem>

@@ -1,17 +1,29 @@
 import * as Yup from 'yup';
-// const FILE_SIZE = 160 * 1024;
-const SUPPORTED_FORMATS = ['application/pdf'];
+
+const FILE_SIZE = 2;
+const SUPPORTED_FORMATS = ['application/pdf', 'image'];
+
+const filesByName = [
+  'constanciaEstudFile',
+  'constanciaFuncFile',
+  'reciboFile',
+  'recibosPublicos',
+  'cartaSolicitud',
+  'actaGrado',
+];
 
 export function checkIfFilesAreTooBig(file) {
   let valid = true;
+  if (!file?.size) return false;
   const size = file.size / 1024 / 1024;
-  if (size > 10) {
+  if (size > FILE_SIZE) {
     valid = false;
   }
   return valid;
 }
 
 export function checkIfFilesAreCorrectType(file) {
+  if (!file?.size) return false;
   const valid = SUPPORTED_FORMATS.includes(file.type);
   return valid;
 }
@@ -100,6 +112,7 @@ const testValues = {
 };
 
 const Texts = {
+  fileSize: 'Archivo es demasiado grande, el máximo es 2MB',
   requiredFields: 'Este campo es requerido',
   invalidEmail: 'Ingrese un email valido',
 };
@@ -141,21 +154,41 @@ const validationSchema = Yup.object({
   recibo_consignacion: Yup.string().required(Texts.requiredFields),
   fecha_consignacion: Yup.string().required(Texts.requiredFields),
   terminos: Yup.string().required(Texts.requiredFields),
-  photo: Yup.string().required(Texts.requiredFields),
-  docFile: Yup.string().required(Texts.requiredFields),
-  // constanciaEstudFile: Yup.string()
-  //   .required(Texts.requiredFields)
-  //   .test('is-big-file', 'VALIDATION_FIELD_FILE_BIG', checkIfFilesAreTooBig)
-  //   .test(
-  //     'is-correct-file',
-  //     'VALIDATION_FIELD_FILE_WRONG_TYPE',
-  //     checkIfFilesAreCorrectType
-  //   ),
-  constanciaFuncFile: Yup.string().required(Texts.requiredFields),
-  reciboFile: Yup.string().required(Texts.requiredFields),
-  recibosPublicos: Yup.string().required(Texts.requiredFields),
-  cartaSolicitud: Yup.string().required(Texts.requiredFields),
-  actaGrado: Yup.string().required(Texts.requiredFields),
+  photo: Yup.mixed()
+    .required(Texts.requiredFields)
+    .test('is-big-file', Texts.fileSize, checkIfFilesAreTooBig)
+    .test(
+      'is-correct-file',
+      'VALIDATION_FIELD_FILE_WRONG_TYPE',
+      checkIfFilesAreCorrectType
+    ),
+  docFile: Yup.mixed()
+    .required(Texts.requiredFields)
+    .test('is-big-file', Texts.fileSize, checkIfFilesAreTooBig)
+    .test(
+      'is-correct-file',
+      'VALIDATION_FIELD_FILE_WRONG_TYPE',
+      checkIfFilesAreCorrectType
+    ),
+  constanciaEstudFile: Yup.mixed()
+    .required(Texts.requiredFields)
+    .test('is-big-file', Texts.fileSize, checkIfFilesAreTooBig)
+    .test(
+      'is-correct-file',
+      'VALIDATION_FIELD_FILE_WRONG_TYPE',
+      checkIfFilesAreCorrectType
+    ),
+  // constanciaFuncFile: Yup.string().required(Texts.requiredFields),
+  // reciboFile: Yup.string().required(Texts.requiredFields),
+  // recibosPublicos: Yup.string().required(Texts.requiredFields),
+  // cartaSolicitud: Yup.string().required(Texts.requiredFields),
+  // actaGrado: Yup.string().required(Texts.requiredFields),
 });
 
-export { initialValues, testValues, SUPPORTED_FORMATS, validationSchema };
+export {
+  initialValues,
+  testValues,
+  SUPPORTED_FORMATS,
+  validationSchema,
+  filesByName,
+};

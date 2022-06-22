@@ -64,7 +64,13 @@ export default function TermsAndConditions({ onClick }) {
           <Link>
             https://drive.google.com/file/d/ljN7iv1KtLwbGuP6cvGUbL6NZHGO-32tZ/view?usp=sharins
           </Link>
-          <Box width="100%" display="flex" justifyContent="center">
+          <Box
+            mt={6}
+            mb={2}
+            width="100%"
+            display="flex"
+            justifyContent="center"
+          >
             <Button
               color="primary"
               variant="contained"

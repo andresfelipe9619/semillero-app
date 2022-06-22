@@ -1125,8 +1125,9 @@ const data = [
 
 const citiesGroupByDepartment = data.reduce((acc, item) => {
   const [department, city] = item;
-  if (acc[department]) acc[department].push(city);
-  else acc[department] = [city];
+  const city2add = { value: city, label: city };
+  if (acc[department]) acc[department].push(city2add);
+  else acc[department] = [city2add];
   return acc;
 }, {});
 
@@ -1136,8 +1137,10 @@ const orderedDepartments = Object.keys(citiesGroupByDepartment)
     acc[key] = citiesGroupByDepartment[key];
     return acc;
   }, {});
-console.log('orderedDepartments', orderedDepartments);
-const DEPARTMENTS = Object.keys(orderedDepartments);
-const CITIES = DEPARTMENTS.map(name =>
-  citiesGroupByDepartment[name].sort().join('|')
-);
+
+const departments = Object.keys(orderedDepartments).map(city => ({
+  value: city,
+  label: city,
+}));
+
+export { departments, citiesGroupByDepartment };
