@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAlertDispatch } from '../../context/Alert';
+import useErrorHandler from '../../hooks/useErrorHandler';
 import { serverFunctions } from '../../utils/serverFunctions';
 import FormPage from '../form-page/FormPage';
 
@@ -7,7 +8,8 @@ console.log('API', serverFunctions);
 export default function Home() {
   const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { openAlert } = useAlertDispatch();
+  const errorHandler = useErrorHandler();
 
   const authenticateCurrentUser = async () => {
     try {
