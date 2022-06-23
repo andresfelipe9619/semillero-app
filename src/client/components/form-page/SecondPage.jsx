@@ -2,7 +2,6 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import Card from '../card/Card';
-import CheckboxesGroup from './FormCheckbox';
 import FormInput from './FormInput';
 import { capitalize } from '../../utils';
 import Documents from './Documents';

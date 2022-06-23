@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Alert, Button, Grid, Typography } from '@mui/material';
 import Fade from '@mui/material/Fade';
 import FormUpload from './FormUpload';
 
@@ -11,11 +11,11 @@ export default function Documents({
   handleSubmit,
   setFieldValue,
 }) {
-  const { grado, estate, convenio, curso } = values;
+  const { grado, estamento, convenio, curso } = values;
 
-  const isPublic = estate === 'PUBLICO';
-  const isCoverage = estate === 'COBERTURA';
-  const isFresita = estate === 'PRIVADO';
+  const isPublic = estamento === 'PUBLICO';
+  const isCoverage = estamento === 'COBERTURA';
+  const isFresita = estamento === 'PRIVADO';
 
   const isCapucho = convenio === 'RELACION_UNIVALLE';
   const isScholar = convenio === 'BECADOS';
@@ -42,6 +42,7 @@ export default function Documents({
 
   const FormFiles = [
     { name: 'docFile', label: 'Documento Identidad', display: true },
+    { name: 'reciboFile', label: 'Recibo de Pago', display: true },
     {
       name: 'constanciaEstudFile',
       label: 'Constancia Estudio',
@@ -54,18 +55,17 @@ export default function Documents({
     {
       name: 'constanciaFuncFile',
       label: 'Constancia Funcionario',
-      display: !isSchoolAgreement && isCapucho && !isScholar,
+      display: isCapucho,
     },
-    { name: 'Recibo', label: 'reciboFile', display: isCapucho },
     {
       name: 'recibosPublicos',
       label: 'Recibos Públicos',
-      display: !isCapucho || isScholar,
+      display: isScholar,
     },
     {
       name: 'cartaSolicitud',
       label: 'Carta Solicitud',
-      display: !isCapucho || isScholar,
+      display: isScholar,
     },
     { name: 'actaGrado', label: 'Acta Grado', display: isGraduated },
   ];
@@ -96,7 +96,10 @@ export default function Documents({
                 <FormUpload name={name} handleChange={handleChange(name)} />
               </Grid>
               <Grid item md={5}>
-                {errors[name] || selectedFile?.name}
+                <Typography variant="caption">
+                  {selectedFile?.name || 'Ningún archivo seleccionado'}
+                </Typography>
+                {errors[name] && <Alert severity="error">{errors[name]}</Alert>}
               </Grid>
             </Grid>
           </Fade>

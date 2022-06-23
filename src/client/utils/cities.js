@@ -1121,7 +1121,7 @@ const data = [
   ['Valle del Cauca', 'Ulloa'],
   ['Valle del Cauca', 'Trujillo'],
   ['Valle del Cauca', 'Vijes'],
-];
+].sort(([, a], [, b]) => a.localeCompare(b));
 
 const citiesGroupByDepartment = data.reduce((acc, item) => {
   const [department, city] = item;
@@ -1143,4 +1143,9 @@ const departments = Object.keys(orderedDepartments).map(city => ({
   label: city,
 }));
 
-export { departments, citiesGroupByDepartment };
+const communes = Array.from({ length: 21 }, (_, i) => i + 1).map(commune => ({
+  value: commune,
+  label: commune,
+}));
+
+export { departments, communes, citiesGroupByDepartment };

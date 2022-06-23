@@ -1,9 +1,51 @@
 import * as Yup from 'yup';
+import EPSs from '../../utils/eps';
 
 const FILE_SIZE = 2;
-const SUPPORTED_FORMATS = ['application/pdf', 'image'];
+
+const SUPPORTED_FORMATS = ['application/pdf', 'image/*'];
+
+export const GOOGLE_URL =
+  'https://accounts.google.com/SignUp?service=mail&hl=es&continue=http%3A%2F%2Fmail.google.com%2Fmail%2F%3Fpc%3Des-ha-latam-co-bk-xplatform1&utm_campaign=es&utm_source=es-ha-latam-co-bk-xplatform1&utm_medium=ha';
+
+export const DocumentTypeOptions = [
+  { value: 'T.I', label: 'T.I' },
+  { value: 'C.C', label: 'C.C' },
+  { value: 'C.E', label: 'Cedula de Extrangería' },
+  { value: 'R.C', label: 'Registro Civil' },
+];
+
+export const GenreOptions = [
+  { value: 'M', label: 'Masculino' },
+  { value: 'F', label: 'Femenino' },
+  { value: 'OTRO', label: 'Otro' },
+];
+
+export const EPSOptions = EPSs.map(eps => ({ value: eps, label: eps }));
+
+export const NumberOfSchoolGrades = 11;
+
+export const GradeOptions = Array.from(
+  { length: NumberOfSchoolGrades + 1 },
+  (_, i) => {
+    const isLast = i === NumberOfSchoolGrades;
+    const grade = i + 1;
+    return {
+      value: isLast ? 'EGRESADO' : grade,
+      label: isLast ? 'Egresado colegios' : `${grade}°`,
+    };
+  }
+);
+
+export const EstateOptions = [
+  { value: 'PUBLICO', label: 'Público' },
+  { value: 'PRIVADO', label: 'Privado' },
+  { value: 'COBERTURA', label: 'Cobertura' },
+];
 
 const filesByName = [
+  'photo',
+  'docFile',
   'constanciaEstudFile',
   'constanciaFuncFile',
   'reciboFile',
@@ -12,7 +54,7 @@ const filesByName = [
   'actaGrado',
 ];
 
-export function checkIfFilesAreTooBig(file) {
+export function checkIfFileIsTooBig(file) {
   let valid = true;
   if (!file?.size) return false;
   const size = file.size / 1024 / 1024;
@@ -22,7 +64,7 @@ export function checkIfFilesAreTooBig(file) {
   return valid;
 }
 
-export function checkIfFilesAreCorrectType(file) {
+export function checkIfFileIsCorrectType(file) {
   if (!file?.size) return false;
   const valid = SUPPORTED_FORMATS.includes(file.type);
   return valid;
@@ -84,9 +126,10 @@ const testValues = {
   '2023A': '-',
   '2023B': '-',
   apellido: 'SUAREZ',
+  direccion: 'KR 49B #44-67',
   ciudad_doc: 'CALI',
-  depto_res: 'VALLE DEL CAUCA',
-  ciudad_res: 'CALI',
+  depto_res: 'Valle del Cauca',
+  ciudad_res: 'Cali',
   colegio: 'CHINCA',
   convenio: 'PARTICULAR',
   email: 'andresfelipe9619@gmail.com',
@@ -112,10 +155,16 @@ const testValues = {
 };
 
 const Texts = {
-  fileSize: 'Archivo es demasiado grande, el máximo es 2MB',
   requiredFields: 'Este campo es requerido',
-  invalidEmail: 'Ingrese un email valido',
+  notIdentical: 'Los correos no coinciden',
+  invalidFileSize: 'El archivo es demasiado grande, el máximo es 2MB',
+  invalidFileType: 'El tipo de archivo es invalido',
+  invalidEmail: 'El correo debe ser gmail o correounivalle',
 };
+
+const UnivalleRegex = /^[\w.+-]+@(gmail|correounivalle.edu)\.co(m)?$/;
+
+const setFieldRequired = schema => schema.required(Texts.requiredFields);
 
 const validationSchema = Yup.object({
   nombre: Yup.string().required(Texts.requiredFields),
@@ -124,22 +173,28 @@ const validationSchema = Yup.object({
   ciudad_doc: Yup.string().required(Texts.requiredFields),
   num_doc: Yup.string().required(Texts.requiredFields),
   email: Yup.string()
-    .email(Texts.invalidEmail)
+    .matches(UnivalleRegex, Texts.invalidEmail)
     .required(Texts.requiredFields),
   confirmEmail: Yup.string()
-    .email(Texts.invalidEmail)
+    .matches(UnivalleRegex, Texts.invalidEmail)
     .required(Texts.requiredFields)
-    .oneOf([Yup.ref('email')], 'Los correos no coinciden'),
+    .oneOf([Yup.ref('email')], Texts.notIdentical),
   genero: Yup.string().required(Texts.requiredFields),
   nacimiento: Yup.string().required(Texts.requiredFields),
   tel_fijo: Yup.string().required(Texts.requiredFields),
   tel_celular: Yup.string().required(Texts.requiredFields),
   direccion: Yup.string().required(Texts.requiredFields),
-  ciudad_res: Yup.string().required(Texts.requiredFields),
-  comuna_res: Yup.string().required(Texts.requiredFields),
   depto_res: Yup.string().required(Texts.requiredFields),
+  ciudad_res: Yup.string().required(Texts.requiredFields),
+  comuna_res: Yup.string().when('ciudad_res', {
+    is: 'Cali',
+    then: setFieldRequired,
+  }),
   eps: Yup.string().required(Texts.requiredFields),
-  otraeps: Yup.string().required(Texts.requiredFields),
+  otraeps: Yup.string().when('eps', {
+    is: 'OTRA',
+    then: setFieldRequired,
+  }),
   colegio: Yup.string().required(Texts.requiredFields),
   estamento: Yup.string().required(Texts.requiredFields),
   grado: Yup.string().required(Texts.requiredFields),
@@ -156,33 +211,51 @@ const validationSchema = Yup.object({
   terminos: Yup.string().required(Texts.requiredFields),
   photo: Yup.mixed()
     .required(Texts.requiredFields)
-    .test('is-big-file', Texts.fileSize, checkIfFilesAreTooBig)
-    .test(
-      'is-correct-file',
-      'VALIDATION_FIELD_FILE_WRONG_TYPE',
-      checkIfFilesAreCorrectType
-    ),
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
   docFile: Yup.mixed()
     .required(Texts.requiredFields)
-    .test('is-big-file', Texts.fileSize, checkIfFilesAreTooBig)
-    .test(
-      'is-correct-file',
-      'VALIDATION_FIELD_FILE_WRONG_TYPE',
-      checkIfFilesAreCorrectType
-    ),
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
   constanciaEstudFile: Yup.mixed()
+    .when(['convenio', 'estamento'], {
+      is: val => ['BECADOS', 'PUBLIC', 'COBERTURA'].includes(val),
+      then: setFieldRequired,
+    })
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
+  constanciaFuncFile: Yup.mixed()
+    .when(['convenio'], {
+      is: val => ['RELACION_UNIVALLE'].includes(val),
+      then: setFieldRequired,
+    })
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
+  reciboFile: Yup.mixed()
     .required(Texts.requiredFields)
-    .test('is-big-file', Texts.fileSize, checkIfFilesAreTooBig)
-    .test(
-      'is-correct-file',
-      'VALIDATION_FIELD_FILE_WRONG_TYPE',
-      checkIfFilesAreCorrectType
-    ),
-  // constanciaFuncFile: Yup.string().required(Texts.requiredFields),
-  // reciboFile: Yup.string().required(Texts.requiredFields),
-  // recibosPublicos: Yup.string().required(Texts.requiredFields),
-  // cartaSolicitud: Yup.string().required(Texts.requiredFields),
-  // actaGrado: Yup.string().required(Texts.requiredFields),
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
+  recibosPublicos: Yup.mixed()
+    .when(['convenio'], {
+      is: val => ['BECADOS'].includes(val),
+      then: setFieldRequired,
+    })
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
+  cartaSolicitud: Yup.mixed()
+    .when(['convenio'], {
+      is: val => ['BECADOS'].includes(val),
+      then: setFieldRequired,
+    })
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
+  actaGrado: Yup.mixed()
+    .when(['grado'], {
+      is: val => ['EGRESADO'].includes(val),
+      then: setFieldRequired,
+    })
+    .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
+    .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
 });
 
 export {

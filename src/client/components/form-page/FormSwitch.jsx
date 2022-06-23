@@ -5,25 +5,28 @@ import Switch from '@mui/material/Switch';
 
 const isBoolean = val => typeof val === 'boolean';
 const getBoolean = val => val === 'SI';
+const getLiteral = val => (val ? 'SI' : 'NO');
+const isChecked = val => (isBoolean(val) ? val : getBoolean(val));
 
 export default function FormSwitch({
   name,
   label,
   values,
+  setFieldValue,
   isSubmitting,
-  handleChange,
 }) {
-  const value = values[name];
+  const value = values[name] || 'NO';
+
+  function handleChange(event) {
+    const { checked } = event.target;
+    setFieldValue(name, getLiteral(checked));
+  }
+
   return (
     <FormGroup>
       <FormControlLabel
         disabled={isSubmitting}
-        control={
-          <Switch
-            checked={isBoolean(value) ? value : getBoolean(value)}
-            onChange={handleChange}
-          />
-        }
+        control={<Switch checked={isChecked(value)} onChange={handleChange} />}
         label={label}
       />
     </FormGroup>
