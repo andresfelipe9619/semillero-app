@@ -16,7 +16,7 @@ export default function FormSelect({
   touched,
 }) {
   return (
-    <FormControl fullWidth variant="outlined">
+    <FormControl fullWidth variant="outlined" error={!!errors[name]}>
       <InputLabel id={`${name}-label`}>{label}</InputLabel>
       <Select
         labelId={`${name}-label`}
@@ -33,9 +33,9 @@ export default function FormSelect({
           </MenuItem>
         ))}
       </Select>
-      <FormHelperText>
-        {!!touched[name] && errors[name] ? errors[name] : ''}
-      </FormHelperText>
+      {!!touched[name] && !!errors[name] && (
+        <FormHelperText>{errors[name] || ''}</FormHelperText>
+      )}
     </FormControl>
   );
 }

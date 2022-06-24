@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { useAlertDispatch } from '../../context/Alert';
 import useErrorHandler from '../../hooks/useErrorHandler';
 import { serverFunctions } from '../../utils/serverFunctions';
 import FormPage from '../form-page/FormPage';
 
-console.log('API', serverFunctions);
+const { NODE_ENV } = process.env;
+const isDev = NODE_ENV === 'development';
+
+console.log('NODE_ENV', NODE_ENV);
 export default function Home() {
   const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -71,19 +76,28 @@ export default function Home() {
     authenticateCurrentUser();
   }, []);
 
-  // if (loading) return 'Loading ...';
+  if (!isDev && loading) return <CircularIndeterminate />;
   return (
     <>
-      {isUserAdmin && <Searchbar {...{ cargarInfo }} />}
+      {(isUserAdmin || isDev) && <Searchbar {...{ cargarInfo }} />}
       <FormPage />
     </>
   );
 }
 
-function Searchbar() {
-  const [documentToSearch, setDocumentToSearch] = useState(null);
+function CircularIndeterminate() {
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CircularProgress />
+    </Box>
+  );
+}
 
-  return 'searchbar';
+function Searchbar() {
+  const [documentToSearch] = useState('1144093');
+
+  if (!isDev) return null;
+  return documentToSearch;
 }
 // Testing
 // https://script.google.com/a/correounivalle.edu.co/macros/s/AKfycbwoj14LEASjFWXfQOUbpOjgDnf7MftMK5_VLhLdB22COk1i1_lve1AWgCDd0UE2N5UM/exec

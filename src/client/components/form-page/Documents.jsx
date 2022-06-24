@@ -26,7 +26,8 @@ export default function Documents({
 
   function handleChange(name) {
     return event => {
-      const [file] = event.currentTarget.files;
+      const [file] = event.currentTarget.files || [];
+      if (!file) return;
       setFieldValue(name, file);
     };
   }
@@ -70,6 +71,8 @@ export default function Documents({
     { name: 'actaGrado', label: 'Acta Grado', display: isGraduated },
   ];
 
+  const thereAreErrors = !!Object.keys(errors).length;
+
   return (
     <Grid container spacing={3}>
       <Grid item md={12}>
@@ -78,8 +81,8 @@ export default function Documents({
         </Typography>
         <Box px={4} py={2}>
           <Typography paragraph>
-            Por tavor cargue los archivos necesarios para completar la
-            inscrpcion Tenga en cuenta que los archivos deben ser en formato{' '}
+            Por favor cargue los archivos necesarios para completar la
+            inscrpción. Tenga en cuenta que los archivos deben ser en formato{' '}
             <strong>PDF</strong> y no deben pesar más de <strong>2Mb</strong>.
           </Typography>
         </Box>
@@ -113,10 +116,29 @@ export default function Documents({
         component={Box}
         my={4}
       >
-        <Button variant="contained" type="submit" onClick={handleSubmit}>
+        <Button
+          variant="contained"
+          type="submit"
+          onClick={handleSubmit}
+          disabled={thereAreErrors}
+        >
           Enviar
         </Button>
       </Grid>
+      {thereAreErrors && (
+        <Grid
+          item
+          container
+          md={12}
+          justifyContent="center"
+          component={Box}
+          my={2}
+        >
+          <Alert severity="warning">
+            Recuerda llenar todos los campos requeridos
+          </Alert>
+        </Grid>
+      )}
       <Grid item container md={12} justifyContent="flex-start">
         <Button variant="contained" onClick={handlePrevPage}>
           Anterior

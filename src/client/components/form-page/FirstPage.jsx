@@ -37,7 +37,8 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
 
   async function handleChangePhoto(event) {
     try {
-      const [file] = event.currentTarget.files;
+      const [file] = event.currentTarget.files || [];
+      if (!file) return;
       formik.setFieldValue('photo', file);
       const { base64 } = await getFile(file);
       setAvatar(base64);
@@ -167,7 +168,7 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
             <FormSelect
               options={communes}
               label="Comuna de Residencia"
-              name={'comuna'}
+              name={'comuna_res'}
               {...formik}
             />
           )}
