@@ -1,4 +1,4 @@
-const ROOT_FOLDER = 'SCRIPTS SEMILLEROS';
+const ROOT_FOLDER = 'Semilleros App';
 const FILES_FOLDER = 'Bodega de archivos';
 
 function base64ToBlob(fileName, fileData) {
