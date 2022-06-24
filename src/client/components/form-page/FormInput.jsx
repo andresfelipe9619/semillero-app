@@ -7,6 +7,7 @@ export default function FormInput({
   values,
   type,
   disabled,
+  readOnly = false,
   required = true,
   isSubmitting,
   handleChange,
@@ -28,6 +29,9 @@ export default function FormInput({
       type={type}
       error={!!touched[name] && !!errors[name]}
       variant="outlined"
+      InputProps={{
+        readOnly,
+      }}
       helperText={
         !!touched[name] && errors[name] ? errors[name] : helperText || ''
       }

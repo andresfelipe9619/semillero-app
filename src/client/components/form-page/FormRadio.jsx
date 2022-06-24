@@ -6,10 +6,18 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 export default function FormRadioGroup(props) {
-  const { name, legend, options, values, handleChange } = props;
+  const {
+    name,
+    legend,
+    errors,
+    options,
+    values,
+    handleChange,
+    isSubmitting,
+  } = props;
   const id = `radio-buttons-group-${name}`;
   return (
-    <FormControl>
+    <FormControl disabled={isSubmitting} error={!!errors[name]}>
       <FormLabel id={id}>{legend}</FormLabel>
       <RadioGroup
         row

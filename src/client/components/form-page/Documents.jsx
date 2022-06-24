@@ -6,6 +6,7 @@ import FormUpload from './FormUpload';
 export default function Documents({
   values,
   errors,
+  isSubmitting,
   modulesByArea,
   handlePrevPage,
   handleSubmit,
@@ -96,7 +97,11 @@ export default function Documents({
                 {label}
               </Grid>
               <Grid item md={3}>
-                <FormUpload name={name} handleChange={handleChange(name)} />
+                <FormUpload
+                  name={name}
+                  handleChange={handleChange(name)}
+                  isSubmitting={isSubmitting}
+                />
               </Grid>
               <Grid item md={5}>
                 <Typography variant="caption">
@@ -120,7 +125,7 @@ export default function Documents({
           variant="contained"
           type="submit"
           onClick={handleSubmit}
-          disabled={thereAreErrors}
+          disabled={isSubmitting || thereAreErrors}
         >
           Enviar
         </Button>
@@ -140,7 +145,11 @@ export default function Documents({
         </Grid>
       )}
       <Grid item container md={12} justifyContent="flex-start">
-        <Button variant="contained" onClick={handlePrevPage}>
+        <Button
+          variant="contained"
+          onClick={handlePrevPage}
+          disabled={isSubmitting}
+        >
           Anterior
         </Button>
       </Grid>

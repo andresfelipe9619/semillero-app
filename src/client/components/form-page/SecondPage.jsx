@@ -21,10 +21,17 @@ export default function SecondPage({
   modules,
   ...formik
 }) {
-  const { grado, curso_anterior, curso, estamento, convenio } = formik.values;
+  const {
+    grado,
+    curso_anterior,
+    curso,
+    estamento,
+    convenio,
+    val_consignado = 0,
+  } = formik.values;
   const oldCourse = modules.find(m => m.nombre === curso_anterior);
   const module = modules.find(m => m.codigo === curso);
-
+  console.log('modules', modules);
   const allowedModules = getAllowedModulesByPrerequisiteModule(
     modules,
     oldCourse?.codigo
@@ -37,8 +44,8 @@ export default function SecondPage({
   if (convenio === 'BECADOS') {
     price = 0;
   }
-  // let diff = +payed - +price;
-
+  const diff = +val_consignado - +price;
+  console.log('grado', { grado, allowedModules });
   return (
     <>
       <Card>
@@ -98,7 +105,7 @@ export default function SecondPage({
           </Grid>
           <Grid item md={6} sm={7}>
             <FormInput
-              disabled
+              readOnly
               label="Valor a Consignar"
               name={'val_consignar'}
               {...formik}
@@ -114,9 +121,10 @@ export default function SecondPage({
           </Grid>
           <Grid item md={6}>
             <FormInput
-              disabled
+              readOnly
               label="Saldo Pendiente"
               name={'pendiente'}
+              values={{ pendiente: diff }}
               {...formik}
             />
           </Grid>
@@ -141,6 +149,7 @@ export default function SecondPage({
         <Documents
           errors={formik.errors}
           values={formik.values}
+          isSubmitting={formik.isSubmitting}
           modulesByArea={modulesByArea}
           handleSubmit={handleSubmit}
           handlePrevPage={handlePrevPage}

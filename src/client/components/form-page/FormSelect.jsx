@@ -16,7 +16,12 @@ export default function FormSelect({
   touched,
 }) {
   return (
-    <FormControl fullWidth variant="outlined" error={!!errors[name]}>
+    <FormControl
+      fullWidth
+      variant="outlined"
+      error={!!errors[name]}
+      disabled={isSubmitting}
+    >
       <InputLabel id={`${name}-label`}>{label}</InputLabel>
       <Select
         labelId={`${name}-label`}
