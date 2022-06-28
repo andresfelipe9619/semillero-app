@@ -1,5 +1,12 @@
 import React from 'react';
-import { Box, Alert, Button, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Alert,
+  Button,
+  Grid,
+  Typography,
+  LinearProgress,
+} from '@mui/material';
 import Fade from '@mui/material/Fade';
 import FormUpload from './FormUpload';
 
@@ -127,7 +134,7 @@ export default function Documents({
           onClick={handleSubmit}
           disabled={isSubmitting || thereAreErrors}
         >
-          Enviar
+          {isSubmitting ? 'Enviando...' : 'Enviar'}
         </Button>
       </Grid>
       {thereAreErrors && (
@@ -153,6 +160,11 @@ export default function Documents({
           Anterior
         </Button>
       </Grid>
+      {isSubmitting && (
+        <Grid item md={12}>
+          <LinearProgress />
+        </Grid>
+      )}
     </Grid>
   );
 }

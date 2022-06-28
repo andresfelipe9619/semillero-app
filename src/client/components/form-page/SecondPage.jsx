@@ -36,6 +36,7 @@ export default function SecondPage({
   );
   const price = getModulePrice(seleccion, modules, { estamento, convenio });
   const diff = +val_consignado - +price;
+  console.log('diff', diff);
   console.log('grado', { grado, allowedModules });
   return (
     <>

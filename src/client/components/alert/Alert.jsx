@@ -1,23 +1,10 @@
-import React from 'react';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import InfoIcon from '@mui/icons-material/Info';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { forwardRef } from 'react';
 import green from '@mui/material/colors/green';
 import amber from '@mui/material/colors/amber';
-import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
-import SnackbarContent from '@mui/material/SnackbarContent';
-import WarningIcon from '@mui/icons-material/Warning';
+import MuiAlert from '@mui/material/Alert';
 import { withStyles } from '@mui/styles';
 import { useAlert } from '../../context/Alert';
-
-const variantIcon = {
-  success: CheckCircleIcon,
-  warning: WarningIcon,
-  error: ErrorIcon,
-  info: InfoIcon,
-};
 
 const styles1 = theme => ({
   success: {
@@ -46,38 +33,22 @@ const styles1 = theme => ({
   },
 });
 
-function AlertContent(props) {
-  const { classes, className, message, onClose, variant, ...other } = props;
-  const Icon = variantIcon[variant];
+const AlertContent = forwardRef(function AlertContent(
+  { variant, message, ...props },
+  ref
+) {
   return (
-    <SnackbarContent
-      className={[classes[variant], className].join(' ')}
-      aria-describedby="client-snackbar"
-      message={
-        <span id="client-snackbar" className={classes.message}>
-          {Icon && (
-            <Icon className={[classes.icon, classes.iconVariant].join(' ')} />
-          )}
-          {message}
-        </span>
-      }
-      action={
-        onClose && [
-          <IconButton
-            key="close"
-            aria-label="Close"
-            color="inherit"
-            className={classes.close}
-            onClick={onClose}
-          >
-            <CloseIcon className={classes.icon} />
-          </IconButton>,
-        ]
-      }
-      {...other}
-    />
+    <MuiAlert
+      elevation={6}
+      ref={ref}
+      variant="filled"
+      severity={variant}
+      {...props}
+    >
+      {message}
+    </MuiAlert>
   );
-}
+});
 
 const SnackbarContentWrapper = withStyles(styles1)(AlertContent);
 
