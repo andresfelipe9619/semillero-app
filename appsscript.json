@@ -2,7 +2,9 @@
   "timeZone": "America/Bogota",
   "oauthScopes": [
     "https://www.googleapis.com/auth/script.container.ui",
-    "https://www.googleapis.com/auth/spreadsheets"
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/script.send_mail"
   ],
   "webapp": {
     "access": "ANYONE_ANONYMOUS",
