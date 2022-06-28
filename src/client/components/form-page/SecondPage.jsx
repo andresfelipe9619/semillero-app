@@ -3,16 +3,13 @@ import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import Card from '../card/Card';
 import FormInput from './FormInput';
-import { capitalize } from '../../utils';
+import {
+  capitalize,
+  getModulePrice,
+  getAllowedModulesByPrerequisiteModule,
+} from '../../utils';
 import Documents from './Documents';
 import FormRadioGroup from './FormRadio';
-
-function getAllowedModulesByPrerequisiteModule(modules, moduleCode) {
-  if (!moduleCode || !modules) return [];
-  return modules.filter(m =>
-    m.prerrequisitos.split(',').some(p => p === moduleCode)
-  );
-}
 
 export default function SecondPage({
   modulesByArea,
@@ -24,26 +21,20 @@ export default function SecondPage({
   const {
     grado,
     curso_anterior,
-    curso,
+    seleccion,
     estamento,
     convenio,
     val_consignado = 0,
   } = formik.values;
-  const oldCourse = modules.find(m => m.nombre === curso_anterior);
-  const module = modules.find(m => m.codigo === curso);
+  console.log('seleccion', seleccion);
   console.log('modules', modules);
+  const oldCourse = modules.find(m => m.nombre === curso_anterior);
+
   const allowedModules = getAllowedModulesByPrerequisiteModule(
     modules,
     oldCourse?.codigo
   );
-  let price = 0;
-  if (estamento === 'PRIVADO') price = module?.precio_privado;
-  if (estamento === 'PUBLICO') price = module?.precio_publico;
-  if (estamento === 'COBERTURA') price = module?.precio_cobertura;
-  if (convenio === 'RELACION_UNIVALLE') price = module?.precio_univalle;
-  if (convenio === 'BECADOS') {
-    price = 0;
-  }
+  const price = getModulePrice(seleccion, modules, { estamento, convenio });
   const diff = +val_consignado - +price;
   console.log('grado', { grado, allowedModules });
   return (
@@ -123,8 +114,8 @@ export default function SecondPage({
             <FormInput
               readOnly
               label="Saldo Pendiente"
-              name={'pendiente'}
-              values={{ pendiente: diff }}
+              name={'dif_consignado'}
+              values={{ dif_consignado: diff }}
               {...formik}
             />
           </Grid>

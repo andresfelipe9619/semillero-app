@@ -22,6 +22,7 @@ import {
   GenreOptions,
   GOOGLE_URL,
   GradeOptions,
+  SUPPORTED_IMAGE_FORMATS,
 } from './form-settings';
 
 const createEmail = () => window.open(GOOGLE_URL);
@@ -69,7 +70,7 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
           <Box mt={2}>
             <FormUpload
               name="photo"
-              accept="image"
+              accept={SUPPORTED_IMAGE_FORMATS.join()}
               handleChange={handleChangePhoto}
             />
           </Box>
@@ -101,7 +102,12 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
           </Alert>
         </Grid>
         <Grid item md={7}>
-          <FormInput label="Correo Electronico" name={'email'} {...formik} />
+          <FormInput
+            type="email"
+            label="Correo Electronico"
+            name={'email'}
+            {...formik}
+          />
         </Grid>
         <Grid
           item
@@ -118,6 +124,7 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
         </Grid>
         <Grid item md={6}>
           <FormInput
+            type="email"
             label="Confirma Correo"
             name={'confirmEmail'}
             {...formik}

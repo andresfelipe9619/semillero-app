@@ -10,6 +10,7 @@ export default function FormSelect({
   label,
   values,
   options,
+  required = true,
   isSubmitting,
   handleChange,
   errors,
@@ -18,6 +19,7 @@ export default function FormSelect({
   return (
     <FormControl
       fullWidth
+      required={required}
       variant="outlined"
       error={!!errors[name]}
       disabled={isSubmitting}

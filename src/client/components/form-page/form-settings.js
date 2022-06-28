@@ -3,11 +3,11 @@ import EPSs from '../../utils/eps';
 
 const FILE_SIZE = 2;
 
-const SUPPORTED_FORMATS = [
+export const SUPPORTED_IMAGE_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
+
+export const SUPPORTED_FORMATS = [
   'application/pdf',
-  'image/jpg',
-  'image/jpeg',
-  'image/png',
+  ...SUPPORTED_IMAGE_FORMATS,
 ];
 
 export const GOOGLE_URL =
@@ -48,7 +48,7 @@ export const EstateOptions = [
   { value: 'COBERTURA', label: 'Cobertura' },
 ];
 
-const filesByName = [
+export const filesByName = [
   'photo',
   'docFile',
   'constanciaEstudFile',
@@ -75,7 +75,7 @@ export function checkIfFileIsCorrectType(file) {
   return valid;
 }
 
-const initialValues = {
+export const initialValues = {
   nombre: '',
   apellido: '',
   tipo_doc: '',
@@ -117,7 +117,7 @@ const initialValues = {
   actaGrado: '',
 };
 
-const testValues = {
+export const testValues = {
   '2018A': '-',
   '2018B': '-',
   '2019A': 'Música, Percusión y Flauta Dulce - Apreciación Musical',
@@ -176,7 +176,7 @@ const setFileRequired = schema =>
     .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)
     .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType);
 
-const validationSchema = Yup.object({
+export const validationSchema = Yup.object({
   nombre: Yup.string().required(Texts.requiredFields),
   apellido: Yup.string().required(Texts.requiredFields),
   tipo_doc: Yup.string().required(Texts.requiredFields),
@@ -211,7 +211,10 @@ const validationSchema = Yup.object({
   nombre_acudiente: Yup.string().required(Texts.requiredFields),
   tel_acudiente: Yup.string().required(Texts.requiredFields),
   inscrito_anterior: Yup.string().required(Texts.requiredFields),
-  curso_anterior: Yup.string().required(Texts.requiredFields),
+  curso_anterior: Yup.string().when('inscrito_anterior', {
+    is: 'SI',
+    then: setFieldRequired,
+  }),
   seleccion: Yup.string().required(Texts.requiredFields),
   convenio: Yup.string().required(Texts.requiredFields),
   val_consignado: Yup.number().required(Texts.requiredFields),
@@ -252,11 +255,3 @@ const validationSchema = Yup.object({
     then: setFileRequired,
   }),
 });
-
-export {
-  initialValues,
-  testValues,
-  SUPPORTED_FORMATS,
-  validationSchema,
-  filesByName,
-};

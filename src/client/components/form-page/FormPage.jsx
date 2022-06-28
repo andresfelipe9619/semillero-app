@@ -91,6 +91,7 @@ export default function FormPage({ editing }) {
       const result = await submit(
         JSON.stringify({ ...formValues, link, files })
       );
+      console.log('result', result);
       if (result === 'exito') {
         openAlert({
           message:

@@ -1,6 +1,8 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 
+const DoNotCopyPaste = e => e.preventDefault();
+
 export default function FormInput({
   name,
   label,
@@ -11,7 +13,7 @@ export default function FormInput({
   required = true,
   isSubmitting,
   handleChange,
-  helperText,
+  helperText = '',
   handleBlur,
   errors,
   touched,
@@ -32,9 +34,14 @@ export default function FormInput({
       InputProps={{
         readOnly,
       }}
-      helperText={
-        !!touched[name] && errors[name] ? errors[name] : helperText || ''
-      }
+      helperText={!!touched[name] && errors[name] ? errors[name] : helperText}
+      {...(type === 'email'
+        ? {
+            onCopy: DoNotCopyPaste,
+            onPaste: DoNotCopyPaste,
+            onCut: DoNotCopyPaste,
+          }
+        : {})}
     />
   );
 }

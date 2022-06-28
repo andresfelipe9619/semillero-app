@@ -1,3 +1,24 @@
+export const getModulePrice = (choice, modules, { estamento, convenio }) => {
+  const module = modules.find(m => m.codigo === choice);
+  console.log('module', module);
+  let price = 0;
+  if (estamento === 'PRIVADO') price = module?.precio_privado;
+  if (estamento === 'PUBLICO') price = module?.precio_publico;
+  if (estamento === 'COBERTURA') price = module?.precio_cobertura;
+  if (convenio === 'RELACION_UNIVALLE') price = module?.precio_univalle;
+  if (convenio === 'BECADOS') {
+    price = 0;
+  }
+  return price;
+};
+
+export function getAllowedModulesByPrerequisiteModule(modules, moduleCode) {
+  if (!moduleCode || !modules) return [];
+  return modules.filter(m =>
+    m.prerrequisitos.split(',').some(p => p === moduleCode)
+  );
+}
+
 export const getFileName = (fileKey, doc) => {
   if (fileKey === 'docFile') return `${doc}_DOCUMENTO`;
   if (fileKey === 'constanciaEstudFile') return `${doc}_COSNTANCIA_ESTUDIO`;
