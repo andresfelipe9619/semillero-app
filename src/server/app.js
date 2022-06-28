@@ -392,7 +392,7 @@ export function registerStudent(formString) {
     const response = registerStudentInSheets(data, currentStudentData);
     Logger.log('Response');
     Logger.log(response);
-    sendConfirmationEmail(data, filesResult.files);
+    sendConfirmationEmail(data, filesResult?.files || []);
 
     return response;
   } catch (error) {

@@ -54,11 +54,14 @@ export default function FormPage({ editing }) {
   async function getFilesData(formData) {
     const filesPromises = filesByName.map(async fileKey => {
       const doc = formData.num_doc;
-      let file = filesByName[fileKey];
+      const file = formData[fileKey];
       if (!file) return null;
       const fileString = await getFile(file);
-      file = { base64: fileString, name: getFileName(fileKey, doc) };
-      return file;
+      const fileResult = {
+        base64: fileString,
+        name: getFileName(fileKey, doc),
+      };
+      return fileResult;
     });
 
     const files = await Promise.all(filesPromises);
@@ -66,17 +69,17 @@ export default function FormPage({ editing }) {
   }
 
   function getPaymentLink(formValues) {
-    const { moduleCode, estate, agreement } = formValues;
+    const { moduleCode, estamento, convenio } = formValues;
     const module = modules.find(m => m.codigo === moduleCode);
-    console.log('LINK {module, estate}', { module, estate });
-    if (!module || !estate) return null;
+    console.log('LINK {module, estamento}', { module, estamento });
+    if (!module || !estamento) return null;
     let link = '';
     // const payed = $('#val_consignado').val();
-    if (estate === 'PRIVADO') link = module.link_privado;
-    if (estate === 'PUBLICO') link = module.link_publico;
-    if (estate === 'COBERTURA') link = module.link_publico;
+    if (estamento === 'PRIVADO') link = module.link_privado;
+    if (estamento === 'PUBLICO') link = module.link_publico;
+    if (estamento === 'COBERTURA') link = module.link_publico;
     // Univalle overrides whatever estate is selected
-    if (agreement === 'RELACION_UNIVALLE') link = module.link_univalle;
+    if (convenio === 'RELACION_UNIVALLE') link = module.link_univalle;
     console.log('link', link);
     return link;
   }
