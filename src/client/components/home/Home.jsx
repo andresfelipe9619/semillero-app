@@ -6,10 +6,8 @@ import useErrorHandler from '../../hooks/useErrorHandler';
 import { serverFunctions } from '../../utils/serverFunctions';
 import FormPage from '../form-page/FormPage';
 
-const { NODE_ENV } = process.env;
-const isDev = NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
-console.log('NODE_ENV', NODE_ENV);
 export default function Home() {
   const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [loading, setLoading] = useState(false);

@@ -22,7 +22,6 @@ export default function FormRadioGroup(props) {
       <RadioGroup
         row
         aria-labelledby={id}
-        defaultValue="M"
         name={name}
         value={values[name]}
         onChange={handleChange}
@@ -32,7 +31,7 @@ export default function FormRadioGroup(props) {
             <FormControlLabel
               key={value}
               value={value}
-              control={<Radio />}
+              control={<Radio checked={value === values[name]} />}
               label={label}
             />
           );

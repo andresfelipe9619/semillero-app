@@ -1,21 +1,24 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import TermsAndConditions from './TermsAndConditions';
 import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
 import {
-  // initialValues,
+  initialValues,
   validationSchema,
-  testValues,
+  // testValues,
   filesByName,
 } from './form-settings';
 import { useAlertDispatch } from '../../context/Alert';
 import { serverFunctions as API } from '../../utils/serverFunctions';
-import { getFileName } from '../../utils';
+import { getFileName, getModulePrice } from '../../utils';
 import useErrorHandler from '../../hooks/useErrorHandler';
+import mockData from '../../mock-data';
 
+const isDev = process.env.NODE_ENV === 'development';
 const Content = [FirstPage, SecondPage];
-console.log('API', API);
+
 export default function FormPage({ editing }) {
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -87,12 +90,16 @@ export default function FormPage({ editing }) {
   async function onSubmit(formValues) {
     try {
       setLoading(true);
+      const { seleccion, estamento, convenio, val_consignado = 0 } = formValues;
       const files = await getFilesData(formValues);
       const link = getPaymentLink(formValues);
       // openPaymentLink();
+      const price = getModulePrice(seleccion, modules, { estamento, convenio });
+      const dif_consignado = +price - +val_consignado;
+
       const submit = editing ? API.editStudent : API.registerStudent;
       const result = await submit(
-        JSON.stringify({ ...formValues, link, files })
+        JSON.stringify({ ...formValues, link, files, dif_consignado })
       );
       console.log('result', result);
       if (result === 'exito') {
@@ -121,7 +128,7 @@ export default function FormPage({ editing }) {
     touched,
   } = useFormik({
     onSubmit,
-    initialValues: testValues,
+    initialValues,
     validationSchema,
   });
 
@@ -165,10 +172,14 @@ export default function FormPage({ editing }) {
   };
 
   async function init() {
-    setLoading(true);
-    await fetchCurrentPeriodData();
-    await fetchModulesByGrades();
-    setLoading(false);
+    if (isDev) {
+      loadCurrentPeriodData(mockData);
+    } else {
+      setLoading(true);
+      await fetchCurrentPeriodData();
+      await fetchModulesByGrades();
+      setLoading(false);
+    }
   }
 
   useEffect(() => {

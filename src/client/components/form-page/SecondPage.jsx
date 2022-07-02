@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Divider } from '@mui/material';
 import React from 'react';
 import Card from '../card/Card';
 import FormInput from './FormInput';
@@ -35,8 +35,7 @@ export default function SecondPage({
     oldCourse?.codigo
   );
   const price = getModulePrice(seleccion, modules, { estamento, convenio });
-  const diff = +val_consignado - +price;
-  console.log('diff', diff);
+  const diff = +price - +val_consignado;
   console.log('grado', { grado, allowedModules });
   return (
     <>
@@ -61,17 +60,18 @@ export default function SecondPage({
           </Grid>
           <Grid item md={12}>
             <Typography variant="h2" color="primary">
-              Módulo a Matricular*:
+              Módulo a Matricular:
             </Typography>
           </Grid>
           {Object.entries(modulesByArea).map(([name, courses]) => {
             const areaName = capitalize(name);
             return (
-              <Grid item container md={6} key={name}>
+              <Grid item container md={6} key={name} alignContent="flex-start">
                 <Grid item md={12}>
-                  <Typography variant="h2" color="primary">
+                  <Typography variant="h2" color="primary" gutterBottom>
                     {areaName}
                   </Typography>
+                  <Divider variant="fullWidth" />
                 </Grid>
                 <Grid item md={12}>
                   <FormRadioGroup
@@ -97,7 +97,8 @@ export default function SecondPage({
           </Grid>
           <Grid item md={6} sm={7}>
             <FormInput
-              readOnly
+              money
+              disabled
               label="Valor a Consignar"
               name={'val_consignar'}
               {...formik}
@@ -106,6 +107,7 @@ export default function SecondPage({
           </Grid>
           <Grid item md={6}>
             <FormInput
+              money
               label="Valor Consignado"
               name={'val_consignado'}
               {...formik}
@@ -113,11 +115,12 @@ export default function SecondPage({
           </Grid>
           <Grid item md={6}>
             <FormInput
-              readOnly
+              disabled
+              money
               label="Saldo Pendiente"
               name={'dif_consignado'}
-              values={{ dif_consignado: diff }}
               {...formik}
+              values={{ dif_consignado: diff || 0 }}
             />
           </Grid>
           <Grid item md={6}>

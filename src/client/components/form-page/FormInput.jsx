@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const DoNotCopyPaste = e => e.preventDefault();
 
@@ -9,6 +10,7 @@ export default function FormInput({
   values,
   type,
   disabled,
+  money = false,
   readOnly = false,
   required = true,
   isSubmitting,
@@ -33,6 +35,9 @@ export default function FormInput({
       variant="outlined"
       InputProps={{
         readOnly,
+        startAdornment: money ? (
+          <InputAdornment position="start">$</InputAdornment>
+        ) : null,
       }}
       helperText={!!touched[name] && errors[name] ? errors[name] : helperText}
       {...(type === 'email'

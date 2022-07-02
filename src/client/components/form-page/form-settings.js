@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import EPSs from '../../utils/eps';
 
-const FILE_SIZE = 2;
+const FILE_SIZE = 2; // 2Mb
 
 export const SUPPORTED_IMAGE_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
