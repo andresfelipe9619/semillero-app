@@ -1,6 +1,5 @@
 export const getModulePrice = (choice, modules, { estamento, convenio }) => {
   const module = modules.find(m => m.codigo === choice);
-  console.log('module', module);
   let price = 0;
   if (estamento === 'PRIVADO') price = module?.precio_privado;
   if (estamento === 'PUBLICO') price = module?.precio_publico;

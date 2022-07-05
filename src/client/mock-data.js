@@ -1,4 +1,4 @@
-const mockData = {
+export const mockData = {
   currentPeriod: '2022B',
   modules: [
     {
@@ -969,4 +969,731 @@ const mockData = {
     },
   ],
 };
-export default mockData;
+
+export const mockDataByGrade = {
+  '1': {
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller infantil de Teatro',
+        codigo: 'tit',
+        prueba: '',
+      },
+    ],
+  },
+  '2': {
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller infantil de Teatro',
+        codigo: 'tit',
+        prueba: '',
+      },
+    ],
+  },
+  '3': {
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller infantil de Teatro',
+        codigo: 'tit',
+        prueba: '',
+      },
+    ],
+  },
+  '4': {
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller infantil de Teatro',
+        codigo: 'tit',
+        prueba: '',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Curso de arte y creación',
+        codigo: 'rca',
+        prueba: '',
+      },
+    ],
+  },
+  '5': {
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller infantil de Teatro',
+        codigo: 'tit',
+        prueba: '',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Curso de arte y creación',
+        codigo: 'rca',
+        prueba: '',
+      },
+    ],
+  },
+  '6': {
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller Juvenil de Teatro',
+        codigo: 'tjt',
+        prueba: '',
+      },
+    ],
+    matemáticas: [
+      {
+        nombre: 'De los Enteros A los racionales',
+        codigo: 'ern',
+        prueba: 'https://goo.gl/forms/yUM3gOjGFhvJhXeO2',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Curso de arte y creación',
+        codigo: 'rca',
+        prueba: '',
+      },
+    ],
+  },
+  '7': {
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller Juvenil de Teatro',
+        codigo: 'tjt',
+        prueba: '',
+      },
+    ],
+    matemáticas: [
+      {
+        nombre: 'De los Enteros A los racionales',
+        codigo: 'ern',
+        prueba: 'https://goo.gl/forms/yUM3gOjGFhvJhXeO2',
+      },
+      {
+        nombre: 'Lógica, Conjuntos y Sistemas Numéricos',
+        codigo: 'lcsn',
+        prueba: 'https://goo.gl/forms/Tsc3yqneRpxjcK3t1',
+      },
+      {
+        nombre: 'Álgebra Fundamental',
+        codigo: 'af',
+        prueba: 'https://goo.gl/forms/huPBeP9N9vLcpjJh1',
+      },
+      {
+        nombre: 'Geometría Plana y del Espacio',
+        codigo: 'gpe',
+        prueba: 'https://goo.gl/forms/ws3yuOo8ZraunTmC2',
+      },
+      {
+        nombre: 'Geometría Analítica y Trigonometría',
+        codigo: 'gat',
+        prueba: 'https://goo.gl/forms/kPdmfWOXVy2TaKCn1',
+      },
+      {
+        nombre: 'Probabilidad y Estadística',
+        codigo: 'pe',
+        prueba: 'https://goo.gl/forms/LQXTzEiwxdY0ZWa22',
+      },
+      {
+        nombre: 'Funciones, Sucesiones y Límite',
+        codigo: 'fsl',
+        prueba: 'https://goo.gl/forms/rNkF6gLST0O8hG9U2',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Curso de arte y creación',
+        codigo: 'rca',
+        prueba: '',
+      },
+    ],
+  },
+  '8': {
+    biología: [
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales',
+        codigo: 'blg',
+        prueba: '',
+      },
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales II',
+        codigo: 'estsertwo',
+        prueba: '',
+      },
+    ],
+    lenguaje: [
+      {
+        nombre: 'Escritura Creativa',
+        codigo: 'escr',
+        prueba: '',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Curso de arte y creación',
+        codigo: 'rca',
+        prueba: '',
+      },
+      {
+        nombre: 'Marketing Digital',
+        codigo: 'mkd',
+        prueba: '',
+      },
+      {
+        nombre: 'Desarrollo de habilidades TIC',
+        codigo: 'dhtic',
+        prueba: '',
+      },
+      {
+        nombre: 'Lectura y Escritura como aptos  creativos',
+        codigo: 'lecrea',
+        prueba: '',
+      },
+    ],
+    música: [
+      {
+        nombre: 'Música, Percusión y Flauta Dulce - Apreciación Musical',
+        codigo: 'muper',
+        prueba: '',
+      },
+    ],
+    talleres: [
+      {
+        nombre: 'Recreate Con-Ciencia',
+        codigo: 'rcc',
+        prueba: '',
+      },
+    ],
+    matemáticas: [
+      {
+        nombre: 'Lógica, Conjuntos y Sistemas Numéricos',
+        codigo: 'lcsn',
+        prueba: 'https://goo.gl/forms/Tsc3yqneRpxjcK3t1',
+      },
+      {
+        nombre: 'Álgebra Fundamental',
+        codigo: 'af',
+        prueba: 'https://goo.gl/forms/huPBeP9N9vLcpjJh1',
+      },
+      {
+        nombre: 'Geometría Plana y del Espacio',
+        codigo: 'gpe',
+        prueba: 'https://goo.gl/forms/ws3yuOo8ZraunTmC2',
+      },
+      {
+        nombre: 'Geometría Analítica y Trigonometría',
+        codigo: 'gat',
+        prueba: 'https://goo.gl/forms/kPdmfWOXVy2TaKCn1',
+      },
+      {
+        nombre: 'Probabilidad y Estadística',
+        codigo: 'pe',
+        prueba: 'https://goo.gl/forms/LQXTzEiwxdY0ZWa22',
+      },
+      {
+        nombre: 'Funciones, Sucesiones y Límite',
+        codigo: 'fsl',
+        prueba: 'https://goo.gl/forms/rNkF6gLST0O8hG9U2',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller Juvenil de Teatro',
+        codigo: 'tjt',
+        prueba: '',
+      },
+      {
+        nombre: 'Actuación ante Cámaras',
+        codigo: 'actaca',
+        prueba: '',
+      },
+    ],
+  },
+  '9': {
+    música: [
+      {
+        nombre: 'Música, Percusión y Flauta Dulce - Apreciación Musical',
+        codigo: 'muper',
+        prueba: '',
+      },
+    ],
+    biología: [
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales',
+        codigo: 'blg',
+        prueba: '',
+      },
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales II',
+        codigo: 'estsertwo',
+        prueba: '',
+      },
+    ],
+    lenguaje: [
+      {
+        nombre: 'Escritura Creativa',
+        codigo: 'escr',
+        prueba: '',
+      },
+    ],
+    matemáticas: [
+      {
+        nombre: 'Lógica, Conjuntos y Sistemas Numéricos',
+        codigo: 'lcsn',
+        prueba: 'https://goo.gl/forms/Tsc3yqneRpxjcK3t1',
+      },
+      {
+        nombre: 'Álgebra Fundamental',
+        codigo: 'af',
+        prueba: 'https://goo.gl/forms/huPBeP9N9vLcpjJh1',
+      },
+      {
+        nombre: 'Geometría Plana y del Espacio',
+        codigo: 'gpe',
+        prueba: 'https://goo.gl/forms/ws3yuOo8ZraunTmC2',
+      },
+      {
+        nombre: 'Geometría Analítica y Trigonometría',
+        codigo: 'gat',
+        prueba: 'https://goo.gl/forms/kPdmfWOXVy2TaKCn1',
+      },
+      {
+        nombre: 'Probabilidad y Estadística',
+        codigo: 'pe',
+        prueba: 'https://goo.gl/forms/LQXTzEiwxdY0ZWa22',
+      },
+      {
+        nombre: 'Funciones, Sucesiones y Límite',
+        codigo: 'fsl',
+        prueba: 'https://goo.gl/forms/rNkF6gLST0O8hG9U2',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller Juvenil de Teatro',
+        codigo: 'tjt',
+        prueba: '',
+      },
+      {
+        nombre: 'Actuación ante Cámaras',
+        codigo: 'actaca',
+        prueba: '',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Marketing Digital',
+        codigo: 'mkd',
+        prueba: '',
+      },
+      {
+        nombre: 'Desarrollo de habilidades TIC',
+        codigo: 'dhtic',
+        prueba: '',
+      },
+      {
+        nombre: 'Lectura y Escritura como aptos  creativos',
+        codigo: 'lecrea',
+        prueba: '',
+      },
+    ],
+  },
+  '10': {
+    NAS: [
+      {
+        nombre: 'Nivelación Académica Semilleros - Semana - Virtual',
+        codigo: 'nasv',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semilleros - Semana - Presencial',
+        codigo: 'nasp',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semileros - Sábados - Presencial',
+        codigo: 'nasip',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semileros - Sábados - Virtual',
+        codigo: 'nasiv',
+        prueba: '',
+      },
+    ],
+    biología: [
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales',
+        codigo: 'blg',
+        prueba: '',
+      },
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales II',
+        codigo: 'estsertwo',
+        prueba: '',
+      },
+    ],
+    lenguaje: [
+      {
+        nombre: 'Lectura Crítica',
+        codigo: 'lecr',
+        prueba: '',
+      },
+      {
+        nombre: 'Escritura Creativa',
+        codigo: 'escr',
+        prueba: '',
+      },
+    ],
+    física: [
+      {
+        nombre: 'Energía y Movimiento',
+        codigo: 'em',
+        prueba: '',
+      },
+    ],
+    química: [
+      {
+        nombre: 'AGE: átomo, gases y estequiometría',
+        codigo: 'age',
+        prueba: '',
+      },
+      {
+        nombre: 'ESE: Estequiometría II, Soluciones y Equilibrio',
+        codigo: 'ese',
+        prueba: '',
+      },
+      {
+        nombre: 'BIOQ: Química Orgánica y Bioquímica',
+        codigo: 'bioq',
+        prueba: '',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Marketing Digital',
+        codigo: 'mkd',
+        prueba: '',
+      },
+      {
+        nombre: 'Desarrollo de habilidades TIC',
+        codigo: 'dhtic',
+        prueba: '',
+      },
+      {
+        nombre: 'Lectura y Escritura como aptos  creativos',
+        codigo: 'lecrea',
+        prueba: '',
+      },
+    ],
+    matemáticas: [
+      {
+        nombre: 'Lógica, Conjuntos y Sistemas Numéricos',
+        codigo: 'lcsn',
+        prueba: 'https://goo.gl/forms/Tsc3yqneRpxjcK3t1',
+      },
+      {
+        nombre: 'Álgebra Fundamental',
+        codigo: 'af',
+        prueba: 'https://goo.gl/forms/huPBeP9N9vLcpjJh1',
+      },
+      {
+        nombre: 'Geometría Plana y del Espacio',
+        codigo: 'gpe',
+        prueba: 'https://goo.gl/forms/ws3yuOo8ZraunTmC2',
+      },
+      {
+        nombre: 'Geometría Analítica y Trigonometría',
+        codigo: 'gat',
+        prueba: 'https://goo.gl/forms/kPdmfWOXVy2TaKCn1',
+      },
+      {
+        nombre: 'Probabilidad y Estadística',
+        codigo: 'pe',
+        prueba: 'https://goo.gl/forms/LQXTzEiwxdY0ZWa22',
+      },
+      {
+        nombre: 'Funciones, Sucesiones y Límite',
+        codigo: 'fsl',
+        prueba: 'https://goo.gl/forms/rNkF6gLST0O8hG9U2',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller Juvenil de Teatro',
+        codigo: 'tjt',
+        prueba: '',
+      },
+      {
+        nombre: 'Taller Preparatorio de Danza',
+        codigo: 'tpd',
+        prueba: '',
+      },
+      {
+        nombre: 'Actuación ante Cámaras',
+        codigo: 'actaca',
+        prueba: '',
+      },
+    ],
+  },
+  '11': {
+    biología: [
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales',
+        codigo: 'blg',
+        prueba: '',
+      },
+      {
+        nombre: 'Estudio de los seres vivos y sus procesos vitales II',
+        codigo: 'estsertwo',
+        prueba: '',
+      },
+    ],
+    NAS: [
+      {
+        nombre: 'Nivelación Académica Semilleros - Semana - Virtual',
+        codigo: 'nasv',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semilleros - Semana - Presencial',
+        codigo: 'nasp',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semileros - Sábados - Presencial',
+        codigo: 'nasip',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semileros - Sábados - Virtual',
+        codigo: 'nasiv',
+        prueba: '',
+      },
+    ],
+    lenguaje: [
+      {
+        nombre: 'Lectura Crítica',
+        codigo: 'lecr',
+        prueba: '',
+      },
+      {
+        nombre: 'Escritura Creativa',
+        codigo: 'escr',
+        prueba: '',
+      },
+    ],
+    física: [
+      {
+        nombre: 'Energía y Movimiento',
+        codigo: 'em',
+        prueba: '',
+      },
+    ],
+    química: [
+      {
+        nombre: 'AGE: átomo, gases y estequiometría',
+        codigo: 'age',
+        prueba: '',
+      },
+      {
+        nombre: 'ESE: Estequiometría II, Soluciones y Equilibrio',
+        codigo: 'ese',
+        prueba: '',
+      },
+      {
+        nombre: 'BIOQ: Química Orgánica y Bioquímica',
+        codigo: 'bioq',
+        prueba: '',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Marketing Digital',
+        codigo: 'mkd',
+        prueba: '',
+      },
+      {
+        nombre: 'Desarrollo de habilidades TIC',
+        codigo: 'dhtic',
+        prueba: '',
+      },
+      {
+        nombre: 'Lectura y Escritura como aptos  creativos',
+        codigo: 'lecrea',
+        prueba: '',
+      },
+      {
+        nombre: 'Estrategia digital',
+        codigo: 'edig',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller Juvenil de Teatro',
+        codigo: 'tjt',
+        prueba: '',
+      },
+      {
+        nombre: 'Taller Preparatorio de Danza',
+        codigo: 'tpd',
+        prueba: '',
+      },
+      {
+        nombre: 'Actuación ante Cámaras',
+        codigo: 'actaca',
+        prueba: '',
+      },
+    ],
+    matemáticas: [
+      {
+        nombre: 'Lógica, Conjuntos y Sistemas Numéricos',
+        codigo: 'lcsn',
+        prueba: 'https://goo.gl/forms/Tsc3yqneRpxjcK3t1',
+      },
+      {
+        nombre: 'Álgebra Fundamental',
+        codigo: 'af',
+        prueba: 'https://goo.gl/forms/huPBeP9N9vLcpjJh1',
+      },
+      {
+        nombre: 'Geometría Plana y del Espacio',
+        codigo: 'gpe',
+        prueba: 'https://goo.gl/forms/ws3yuOo8ZraunTmC2',
+      },
+      {
+        nombre: 'Geometría Analítica y Trigonometría',
+        codigo: 'gat',
+        prueba: 'https://goo.gl/forms/kPdmfWOXVy2TaKCn1',
+      },
+      {
+        nombre: 'Probabilidad y Estadística',
+        codigo: 'pe',
+        prueba: 'https://goo.gl/forms/LQXTzEiwxdY0ZWa22',
+      },
+      {
+        nombre: 'Funciones, Sucesiones y Límite',
+        codigo: 'fsl',
+        prueba: 'https://goo.gl/forms/rNkF6gLST0O8hG9U2',
+      },
+    ],
+  },
+  egresado: {
+    NAS: [
+      {
+        nombre: 'Nivelación Académica Semilleros - Semana - Virtual',
+        codigo: 'nasv',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semilleros - Semana - Presencial',
+        codigo: 'nasp',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semileros - Sábados - Presencial',
+        codigo: 'nasip',
+        prueba: '',
+      },
+      {
+        nombre: 'Nivelación Académica Semileros - Sábados - Virtual',
+        codigo: 'nasiv',
+        prueba: '',
+      },
+    ],
+    talleres: [
+      {
+        nombre: 'Semillero en Familia',
+        codigo: 'sf',
+        prueba: '',
+      },
+    ],
+    artes: [
+      {
+        nombre: 'Taller Preparatorio de Danza',
+        codigo: 'tpd',
+        prueba: '',
+      },
+    ],
+    'cursos cortos': [
+      {
+        nombre: 'Marketing Digital',
+        codigo: 'mkd',
+        prueba: '',
+      },
+      {
+        nombre: 'Desarrollo de habilidades TIC',
+        codigo: 'dhtic',
+        prueba: '',
+      },
+      {
+        nombre: 'Lectura y Escritura como aptos  creativos',
+        codigo: 'lecrea',
+        prueba: '',
+      },
+      {
+        nombre: 'Pensamiento lógico y matemático',
+        codigo: 'penloma',
+        prueba: '',
+      },
+      {
+        nombre: 'Emprendimiento e innovación',
+        codigo: 'empin',
+        prueba: '',
+      },
+      {
+        nombre: 'Estrategia digital',
+        codigo: 'edig',
+        prueba: '',
+      },
+    ],
+  },
+};
