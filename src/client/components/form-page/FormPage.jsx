@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import TermsAndConditions from './TermsAndConditions';
 import FirstPage from './FirstPage';
@@ -14,19 +14,18 @@ import { useAlertDispatch } from '../../context/Alert';
 import { serverFunctions as API } from '../../utils/serverFunctions';
 import { getFileName, getModulePrice } from '../../utils';
 import useErrorHandler from '../../hooks/useErrorHandler';
-import mockData from '../../mock-data';
 
-const isDev = process.env.NODE_ENV === 'development';
 const Content = [FirstPage, SecondPage];
 
-export default function FormPage({ editing }) {
+export default function FormPage({
+  modules,
+  studentData,
+  modulesByArea,
+  modulesByGrade,
+}) {
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
-  const [modules, setModules] = useState([]);
-  const [, setCurrentPeriod] = useState(null);
-  const [modulesByArea, setModulesByArea] = useState([]);
-  const [modulesByGrade, setModulesByGrade] = useState([]);
   const { openAlert } = useAlertDispatch();
   const errorHandler = useErrorHandler();
 
@@ -97,7 +96,7 @@ export default function FormPage({ editing }) {
       const price = getModulePrice(seleccion, modules, { estamento, convenio });
       const dif_consignado = +price - +val_consignado;
 
-      const submit = editing ? API.editStudent : API.registerStudent;
+      const submit = studentData ? API.editStudent : API.registerStudent;
       const result = await submit(
         JSON.stringify({ ...formValues, link, files, dif_consignado })
       );
@@ -128,63 +127,10 @@ export default function FormPage({ editing }) {
     touched,
   } = useFormik({
     onSubmit,
-    initialValues,
     validationSchema,
+    enableReinitialize: true,
+    initialValues: studentData || initialValues,
   });
-
-  const fetchModulesByGrades = async () => {
-    try {
-      const result = await API.getModulesByGrades();
-      setModulesByGrade(result);
-    } catch (error) {
-      errorHandler(error);
-    }
-  };
-
-  function loadModulesByArea(allModules) {
-    const areaModules = allModules
-      .filter(module => module.disabled !== 'x')
-      .reduce((acc, module) => {
-        const { area } = module;
-        if (acc[area]) acc[area].push(module);
-        else acc[area] = [module];
-        return acc;
-      }, {});
-    setModulesByArea(areaModules);
-  }
-
-  function loadCurrentPeriodData(data) {
-    if (!data) return;
-    console.log('Current Period Data', data);
-    setCurrentPeriod(data.currentPeriod);
-    setModules(data.modules);
-    loadModulesByArea(data.modules);
-  }
-
-  const fetchCurrentPeriodData = async () => {
-    try {
-      const result = await API.getCurrentPeriodData();
-      console.log('result', result);
-      loadCurrentPeriodData(result);
-    } catch (error) {
-      errorHandler(error);
-    }
-  };
-
-  async function init() {
-    if (isDev) {
-      loadCurrentPeriodData(mockData);
-    } else {
-      setLoading(true);
-      await fetchCurrentPeriodData();
-      await fetchModulesByGrades();
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    init();
-  }, []);
 
   const inputProps = {
     setFieldValue,

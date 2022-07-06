@@ -13,6 +13,7 @@ import FormRadioGroup from './FormRadio';
 
 export default function SecondPage({
   modulesByArea,
+  modulesByGrade,
   handlePrevPage,
   handleSubmit,
   modules,
@@ -26,8 +27,6 @@ export default function SecondPage({
     convenio,
     val_consignado = 0,
   } = formik.values;
-  console.log('seleccion', seleccion);
-  console.log('modules', modules);
   const oldCourse = modules.find(m => m.nombre === curso_anterior);
 
   const allowedModules = getAllowedModulesByPrerequisiteModule(
@@ -36,7 +35,9 @@ export default function SecondPage({
   );
   const price = getModulePrice(seleccion, modules, { estamento, convenio });
   const diff = +price - +val_consignado;
-  console.log('grado', { grado, allowedModules });
+  console.log({ grado, allowedModules });
+
+  const modulesToShow = Object.entries((modulesByGrade || {})[grado]);
   return (
     <>
       <Card>
@@ -63,7 +64,7 @@ export default function SecondPage({
               Módulo a Matricular:
             </Typography>
           </Grid>
-          {Object.entries(modulesByArea).map(([name, courses]) => {
+          {modulesToShow.map(([name, courses]) => {
             const areaName = capitalize(name);
             return (
               <Grid item container md={6} key={name} alignContent="flex-start">

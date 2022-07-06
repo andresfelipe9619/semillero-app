@@ -3,22 +3,38 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useAlertDispatch } from '../../context/Alert';
 import useErrorHandler from '../../hooks/useErrorHandler';
-import { serverFunctions } from '../../utils/serverFunctions';
 import FormPage from '../form-page/FormPage';
+import Navbar from '../navbar/Navbar';
+import { mockData, mockDataByGrade } from '../../mock-data';
+import { serverFunctions as API } from '../../utils/serverFunctions';
 
 const isDev = process.env.NODE_ENV === 'development';
+
+const Messages = {
+  notExists: 'La cedula ingresada no corresponde a ningún estudiante.',
+  oldStudent:
+    'El estudiante esta inscrito anteriormente, pero no el periodo actual.',
+};
 
 export default function Home() {
   const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [studentData, setStudentData] = useState(null);
+  const [modules, setModules] = useState([]);
+  const [currentPeriod, setCurrentPeriod] = useState(null);
+  const [modulesByArea, setModulesByArea] = useState([]);
+  const [modulesByGrade, setModulesByGrade] = useState([]);
   const { openAlert } = useAlertDispatch();
   const errorHandler = useErrorHandler();
 
+  console.log('modules', modules);
   const authenticateCurrentUser = async () => {
     try {
       setLoading(true);
-      const result = await serverFunctions.isAdmin();
-      setIsUserAdmin(result);
+      const isAdmin = await API.isAdmin();
+      if (!isAdmin) setShowForm(true);
+      setIsUserAdmin(isAdmin);
     } catch (error) {
       errorHandler(error);
     } finally {
@@ -27,58 +43,149 @@ export default function Home() {
   };
 
   function loadStudent(personData) {
-    console.log('Person', personData);
+    console.log('Person:', personData);
     const person = JSON.parse(personData);
     if (!person) {
       return openAlert({
-        message: 'La cedula ingresada no corresponde a ningún estudiante',
+        message: Messages.notExists,
         variant: 'warning',
       });
     }
     if (person.state === 'antiguo') {
       return openAlert({
-        message:
-          'El estudiante esta inscrito anteriormente, pero no el periodo actual ',
+        message: Messages.oldStudent,
         variant: 'warning',
       });
     }
-    // if (person.state === 'actual') return fillInStudentData(person);
+    if (person.state === 'actual') {
+      const currentPeriodModule = person.data[currentPeriod];
+      const selectedModule = modules.find(
+        m => m.nombre === currentPeriodModule
+      );
+      return setStudentData({
+        ...person.data,
+        seleccion: selectedModule?.codigo,
+      });
+    }
     return null;
   }
 
   const searchPerson = async id => {
+    let result = null;
     try {
-      const result = await serverFunctions.buscarPersona(id);
+      setLoading(true);
+      result = await API.buscarPersona(id);
       loadStudent(result);
+    } catch (error) {
+      errorHandler(error);
+    } finally {
+      setLoading(false);
+    }
+    return result;
+  };
+  const fetchModulesByGrades = async () => {
+    try {
+      const result = await API.getModulesByGrades();
+      console.log('ModulesByGrades', result);
+      setModulesByGrade(result);
     } catch (error) {
       errorHandler(error);
     }
   };
 
-  function cargarInfo(documentToSearch) {
-    try {
-      // hideStudentRecord();
-      if (!documentToSearch) {
-        return openAlert({
-          message: 'Ingrese una cedula para consultar',
-          variant: 'warning',
-        });
-      }
-      return searchPerson(documentToSearch);
-    } catch (error) {
-      return errorHandler(error);
+  async function handleSearch(documentToSearch) {
+    if (!documentToSearch) {
+      openAlert({
+        message: 'Ingrese una cedula para buscar!',
+        variant: 'warning',
+      });
+    } else {
+      const result = await searchPerson(documentToSearch);
+      if (result) setShowForm(true);
     }
+  }
+  async function handleRegister(documentToSearch) {
+    if (!documentToSearch) {
+      openAlert({
+        message: 'Ingrese una cedula para registrar!',
+        variant: 'warning',
+      });
+    } else {
+      setShowForm(true);
+      setStudentData({ num_doc: documentToSearch });
+    }
+  }
+
+  function loadModulesByArea(allModules) {
+    const areaModules = allModules
+      .filter(module => module.disabled !== 'x')
+      .reduce((acc, module) => {
+        const { area } = module;
+        if (acc[area]) acc[area].push(module);
+        else acc[area] = [module];
+        return acc;
+      }, {});
+    setModulesByArea(areaModules);
+  }
+
+  function loadCurrentPeriodData(data) {
+    if (!data) return;
+    console.log('Current Period Data', data);
+    setCurrentPeriod(data.currentPeriod);
+    setModules(data.modules);
+    loadModulesByArea(data.modules);
+  }
+
+  const fetchCurrentPeriodData = async () => {
+    try {
+      const result = await API.getCurrentPeriodData();
+      console.log('result', result);
+      loadCurrentPeriodData(result);
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
+
+  async function init() {
+    setLoading(true);
+    if (isDev) {
+      loadCurrentPeriodData(mockData);
+      setModulesByGrade(mockDataByGrade);
+    } else {
+      await fetchCurrentPeriodData();
+      await fetchModulesByGrades();
+    }
+    setLoading(false);
   }
 
   useEffect(() => {
     authenticateCurrentUser();
+    init();
   }, []);
 
-  if (!isDev && loading) return <CircularIndeterminate />;
+  const showSearchBar = isUserAdmin || isDev;
+  const showLoader = !isDev && loading;
+  if (showLoader && !isUserAdmin) return <CircularIndeterminate />;
   return (
     <>
-      {(isUserAdmin || isDev) && <Searchbar {...{ cargarInfo }} />}
-      <FormPage />
+      {showSearchBar && (
+        <Navbar
+          loading={loading}
+          handleSearch={handleSearch}
+          handleRegister={handleRegister}
+        />
+      )}
+      {showLoader && <CircularIndeterminate />}
+      {!showLoader && showForm && (
+        <FormPage
+          {...{
+            modules,
+            studentData,
+            modulesByArea,
+            modulesByGrade,
+          }}
+        />
+      )}
     </>
   );
 }
@@ -91,11 +198,5 @@ function CircularIndeterminate() {
   );
 }
 
-function Searchbar() {
-  const [documentToSearch] = useState('1144093');
-
-  if (!isDev) return null;
-  return documentToSearch;
-}
 // Testing
 // https://script.google.com/a/correounivalle.edu.co/macros/s/AKfycbwoj14LEASjFWXfQOUbpOjgDnf7MftMK5_VLhLdB22COk1i1_lve1AWgCDd0UE2N5UM/exec
