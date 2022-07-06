@@ -98,7 +98,7 @@ export const initialValues = {
   grado: '',
   nombre_acudiente: '',
   tel_acudiente: '',
-  inscrito_anterior: '',
+  inscrito_anterior: 'NO',
   curso_anterior: '',
   seleccion: '',
   convenio: '',
@@ -106,7 +106,7 @@ export const initialValues = {
   val_consignar: '',
   recibo_consignacion: '',
   fecha_consignacion: '',
-  terminos: '',
+  terminos: 'Acepto',
   photo: '',
   docFile: '',
   constanciaEstudFile: '',
@@ -218,10 +218,9 @@ export const validationSchema = Yup.object({
   seleccion: Yup.string().required(Texts.requiredFields),
   convenio: Yup.string().required(Texts.requiredFields),
   val_consignado: Yup.number().required(Texts.requiredFields),
-  val_consignar: Yup.number().required(Texts.requiredFields),
+  val_consignar: Yup.number(),
   recibo_consignacion: Yup.string().required(Texts.requiredFields),
   fecha_consignacion: Yup.string().required(Texts.requiredFields),
-  terminos: Yup.string().required(Texts.requiredFields),
   photo: Yup.mixed()
     .required(Texts.requiredFields)
     .test('is-big-file', Texts.invalidFileSize, checkIfFileIsTooBig)

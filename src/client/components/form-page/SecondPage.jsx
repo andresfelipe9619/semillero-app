@@ -10,6 +10,7 @@ import {
 } from '../../utils';
 import Documents from './Documents';
 import FormRadioGroup from './FormRadio';
+import FormDateInput from './FormDateInput';
 
 export default function SecondPage({
   modulesByArea,
@@ -133,7 +134,7 @@ export default function SecondPage({
             />
           </Grid>
           <Grid item md={6}>
-            <FormInput
+            <FormDateInput
               label="Fecha de Consignación"
               name={'fecha_consignacion'}
               {...formik}

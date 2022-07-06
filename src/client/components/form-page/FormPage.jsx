@@ -98,7 +98,13 @@ export default function FormPage({
 
       const submit = studentData ? API.editStudent : API.registerStudent;
       const result = await submit(
-        JSON.stringify({ ...formValues, link, files, dif_consignado })
+        JSON.stringify({
+          ...formValues,
+          link,
+          files,
+          dif_consignado,
+          val_consignar: price || 0,
+        })
       );
       console.log('result', result);
       if (result === 'exito') {
