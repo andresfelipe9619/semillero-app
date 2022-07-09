@@ -25,6 +25,7 @@ export default function Home() {
   const [currentPeriod, setCurrentPeriod] = useState(null);
   const [modulesByArea, setModulesByArea] = useState([]);
   const [modulesByGrade, setModulesByGrade] = useState([]);
+  const [editing, setEditing] = useState(false);
   const { openAlert } = useAlertDispatch();
   const errorHandler = useErrorHandler();
 
@@ -101,10 +102,14 @@ export default function Home() {
       });
     } else {
       const result = await searchPerson(documentToSearch);
-      if (result) setShowForm(true);
+      if (result) {
+        setEditing(true);
+        setShowForm(true);
+      }
     }
   }
   async function handleRegister(documentToSearch) {
+    setEditing(false);
     if (!documentToSearch) {
       openAlert({
         message: 'Ingrese una cedula para registrar!',
@@ -179,6 +184,7 @@ export default function Home() {
       {!showLoader && showForm && (
         <FormPage
           {...{
+            editing,
             modules,
             studentData,
             modulesByArea,

@@ -11,6 +11,22 @@ export const getModulePrice = (choice, modules, { estamento, convenio }) => {
   return price;
 };
 
+export function getPaymentLink(modules, formValues) {
+  const { moduleCode, estamento, convenio } = formValues;
+  const module = modules.find(m => m.codigo === moduleCode);
+  console.log('LINK {module, estamento}', { module, estamento });
+  if (!module || !estamento) return null;
+  let link = '';
+  // const payed = $('#val_consignado').val();
+  if (estamento === 'PRIVADO') link = module.link_privado;
+  if (estamento === 'PUBLICO') link = module.link_publico;
+  if (estamento === 'COBERTURA') link = module.link_publico;
+  // Univalle overrides whatever estate is selected
+  if (convenio === 'RELACION_UNIVALLE') link = module.link_univalle;
+  console.log('link', link);
+  return link;
+}
+
 export function getAllowedModulesByPrerequisiteModule(modules, moduleCode) {
   if (!moduleCode || !modules) return [];
   return modules.filter(m =>

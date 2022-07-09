@@ -38,7 +38,7 @@ export default function SecondPage({
   const diff = +price - +val_consignado;
   console.log({ grado, allowedModules });
 
-  const modulesToShow = Object.entries((modulesByGrade || {})[grado]);
+  const modulesToShow = Object.entries((modulesByGrade || {})[grado] || {});
   return (
     <>
       <Card>

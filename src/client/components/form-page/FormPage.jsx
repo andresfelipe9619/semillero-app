@@ -12,16 +12,17 @@ import {
 } from './form-settings';
 import { useAlertDispatch } from '../../context/Alert';
 import { serverFunctions as API } from '../../utils/serverFunctions';
-import { getFileName, getModulePrice } from '../../utils';
+import { getFileName, getModulePrice, getPaymentLink } from '../../utils';
 import useErrorHandler from '../../hooks/useErrorHandler';
 
 const Content = [FirstPage, SecondPage];
 
 export default function FormPage({
   modules,
-  studentData,
+  editing,
   modulesByArea,
   modulesByGrade,
+  studentData = {},
 }) {
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -70,33 +71,17 @@ export default function FormPage({
     return files.filter(f => f);
   }
 
-  function getPaymentLink(formValues) {
-    const { moduleCode, estamento, convenio } = formValues;
-    const module = modules.find(m => m.codigo === moduleCode);
-    console.log('LINK {module, estamento}', { module, estamento });
-    if (!module || !estamento) return null;
-    let link = '';
-    // const payed = $('#val_consignado').val();
-    if (estamento === 'PRIVADO') link = module.link_privado;
-    if (estamento === 'PUBLICO') link = module.link_publico;
-    if (estamento === 'COBERTURA') link = module.link_publico;
-    // Univalle overrides whatever estate is selected
-    if (convenio === 'RELACION_UNIVALLE') link = module.link_univalle;
-    console.log('link', link);
-    return link;
-  }
-
   async function onSubmit(formValues) {
     try {
       setLoading(true);
       const { seleccion, estamento, convenio, val_consignado = 0 } = formValues;
       const files = await getFilesData(formValues);
-      const link = getPaymentLink(formValues);
+      const link = getPaymentLink(modules, formValues);
       // openPaymentLink();
       const price = getModulePrice(seleccion, modules, { estamento, convenio });
       const dif_consignado = +price - +val_consignado;
 
-      const submit = studentData ? API.editStudent : API.registerStudent;
+      const submit = editing ? API.editStudent : API.registerStudent;
       const result = await submit(
         JSON.stringify({
           ...formValues,
@@ -135,7 +120,7 @@ export default function FormPage({
     onSubmit,
     validationSchema,
     enableReinitialize: true,
-    initialValues: studentData || initialValues,
+    initialValues: { ...initialValues, ...studentData },
   });
 
   const inputProps = {
