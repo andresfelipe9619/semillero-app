@@ -93,7 +93,7 @@ export default function FormPage({
       );
       console.log('result', result);
       if (result === 'exito') {
-        openAlert({
+        return openAlert({
           message:
             'La inscripción se realizó satisfactoriamente!\nRecibiras un correo para confirmar los datos de tu inscripcion.\nFavor entregar el recibo original el primer dia de clases a los monitores',
           variant: 'success',
