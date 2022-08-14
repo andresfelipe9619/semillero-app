@@ -16,8 +16,6 @@ import { serverFunctions as API } from '../../utils/serverFunctions';
 import { getFileName, getModulePrice, getPaymentLink } from '../../utils';
 import useErrorHandler from '../../hooks/useErrorHandler';
 
-const Content = [FirstPage, SecondPage];
-
 export default function FormPage({
   modules,
   editing,
@@ -137,7 +135,6 @@ export default function FormPage({
   console.log('{ values, errors }', { values, errors });
 
   if (!accepted) return <TermsAndConditions onClick={handleSellingSoul} />;
-  const Form = Content[page];
 
   const formProps = {
     handleNextPage,
@@ -148,7 +145,12 @@ export default function FormPage({
     modulesByGrade,
     ...inputProps,
   };
-  return <Form {...formProps} />;
+  return (
+    <>
+      <FirstPage {...formProps} />
+      <SecondPage {...formProps} />
+    </>
+  );
 }
 // Testing
 // https://script.google.com/a/correounivalle.edu.co/macros/s/AKfycbwoj14LEASjFWXfQOUbpOjgDnf7MftMK5_VLhLdB22COk1i1_lve1AWgCDd0UE2N5UM/exec
