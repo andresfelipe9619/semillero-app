@@ -8,6 +8,7 @@ const EmailHandlers = {
   onCopy: DoNotCopyPaste,
   onPaste: DoNotCopyPaste,
   onCut: DoNotCopyPaste,
+  inputProps: { style: { textTransform: 'lowercase' } },
 };
 
 export default function FormInput({
@@ -45,7 +46,6 @@ export default function FormInput({
         startAdornment: money ? (
           <InputAdornment position="start">$</InputAdornment>
         ) : null,
-        ...(isEmail ? { style: { textTransform: 'lowercase' } } : {}),
       }}
       helperText={!!touched[name] && errors[name] ? errors[name] : helperText}
       {...(isEmail ? EmailHandlers : {})}
