@@ -135,7 +135,11 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
           <FormInput label="Celular" name={'tel_celular'} {...formik} />
         </Grid>
         <Grid item md={6}>
-          <FormInput label="Telefono fijo" name={'tel_fijo'} {...formik} />
+          <FormInput
+            label="Celular alternativo"
+            name={'tel_fijo'}
+            {...formik}
+          />
         </Grid>
         <Grid item md={6}>
           <FormRadioGroup

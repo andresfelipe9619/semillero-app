@@ -191,7 +191,7 @@ export const validationSchema = Yup.object({
     .oneOf([Yup.ref('email')], Texts.notIdentical),
   genero: Yup.string().required(Texts.requiredFields),
   nacimiento: Yup.string().required(Texts.requiredFields),
-  tel_fijo: Yup.string().required(Texts.requiredFields),
+  tel_fijo: Yup.string(),
   tel_celular: Yup.string().required(Texts.requiredFields),
   direccion: Yup.string().required(Texts.requiredFields),
   depto_res: Yup.string().required(Texts.requiredFields),

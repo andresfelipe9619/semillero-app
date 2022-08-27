@@ -4,6 +4,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 const DoNotCopyPaste = e => e.preventDefault();
 
+const EmailProps = {
+  onCopy: DoNotCopyPaste,
+  onPaste: DoNotCopyPaste,
+  onCut: DoNotCopyPaste,
+  style: { textTransform: 'lowercase' },
+};
+
 export default function FormInput({
   name,
   label,
@@ -40,13 +47,7 @@ export default function FormInput({
         ) : null,
       }}
       helperText={!!touched[name] && errors[name] ? errors[name] : helperText}
-      {...(type === 'email'
-        ? {
-            onCopy: DoNotCopyPaste,
-            onPaste: DoNotCopyPaste,
-            onCut: DoNotCopyPaste,
-          }
-        : {})}
+      {...(type === 'email' ? EmailProps : {})}
     />
   );
 }
