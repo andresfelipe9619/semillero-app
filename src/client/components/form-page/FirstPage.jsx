@@ -98,7 +98,7 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
         </Grid>
         <Grid item md={12}>
           <Alert severity="warning">
-            Solo se permite el registro con un correo gmail o univalle
+            Solo se permite el registro con un correo gmail o correounivalle.
           </Alert>
         </Grid>
         <Grid item md={7}>
@@ -136,7 +136,7 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
         </Grid>
         <Grid item md={6}>
           <FormInput
-            label="Celular alternativo"
+            label="Teléfono fijo ó celular alternativo"
             name={'tel_fijo'}
             {...formik}
           />

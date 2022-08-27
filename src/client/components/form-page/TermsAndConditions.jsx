@@ -63,7 +63,7 @@ export default function TermsAndConditions({ onClick }) {
             la Politica de privacidad al respecto del tratamiento de datos
             personales de la Universidad del Valle.
           </Typography>
-          <Link href={UnivallePolitics}>{UnivallePolitics}</Link>
+          <Link href={UnivallePolitics}>Link</Link>
           <Box
             mt={6}
             mb={2}

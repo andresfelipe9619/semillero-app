@@ -4,11 +4,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 const DoNotCopyPaste = e => e.preventDefault();
 
-const EmailProps = {
+const EmailHandlers = {
   onCopy: DoNotCopyPaste,
   onPaste: DoNotCopyPaste,
   onCut: DoNotCopyPaste,
-  style: { textTransform: 'lowercase' },
 };
 
 export default function FormInput({
@@ -27,6 +26,7 @@ export default function FormInput({
   errors,
   touched,
 }) {
+  const isEmail = type === 'email';
   return (
     <TextField
       fullWidth
@@ -45,9 +45,10 @@ export default function FormInput({
         startAdornment: money ? (
           <InputAdornment position="start">$</InputAdornment>
         ) : null,
+        ...(isEmail ? { style: { textTransform: 'lowercase' } } : {}),
       }}
       helperText={!!touched[name] && errors[name] ? errors[name] : helperText}
-      {...(type === 'email' ? EmailProps : {})}
+      {...(isEmail ? EmailHandlers : {})}
     />
   );
 }
