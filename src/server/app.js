@@ -14,7 +14,8 @@ import {
 } from './sheets';
 
 const GENERAL_DB =
-  'https://docs.google.com/spreadsheets/d/15Q6rA1lX04Jx820_JW2CI2fK9e3RMGsjmAvedbh2VyA/edit#gid=0';
+  'https://docs.google.com/spreadsheets/d/1TsbNe2yNzhhmJ4vwyS3X0qztIP8kdKeSgoFY95C5-5U/edit#gid=0';
+// test https://docs.google.com/spreadsheets/d/15Q6rA1lX04Jx820_JW2CI2fK9e3RMGsjmAvedbh2VyA/edit#gid=0
 
 export function doGet() {
   return HtmlService.createTemplateFromFile('index.html').evaluate();
