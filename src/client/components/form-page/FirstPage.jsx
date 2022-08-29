@@ -27,7 +27,7 @@ import {
 
 const createEmail = () => window.open(GOOGLE_URL);
 
-export default function FirstPage({ handleNextPage, modules, ...formik }) {
+export default function FirstPage({ modules, ...formik }) {
   const [avatar, setAvatar] = useState(null);
   const errorHandler = useErrorHandler();
 
@@ -258,11 +258,6 @@ export default function FirstPage({ handleNextPage, modules, ...formik }) {
             />
           </Grid>
         )}
-        <Grid item container md={12} justifyContent="flex-end">
-          <Button variant="contained" onClick={handleNextPage}>
-            Siguiente
-          </Button>
-        </Grid>
       </Grid>
     </Card>
   );

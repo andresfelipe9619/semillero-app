@@ -25,20 +25,11 @@ export default function FormPage({
 }) {
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
   const { openAlert } = useAlertDispatch();
   const errorHandler = useErrorHandler();
 
   function handleSellingSoul() {
     setAccepted(true);
-  }
-
-  function handleNextPage() {
-    setPage(page + 1);
-  }
-
-  function handlePrevPage() {
-    setPage(page - 1);
   }
 
   function getFile(file) {
@@ -137,8 +128,6 @@ export default function FormPage({
   if (!accepted) return <TermsAndConditions onClick={handleSellingSoul} />;
 
   const formProps = {
-    handleNextPage,
-    handlePrevPage,
     loading,
     modules,
     modulesByArea,

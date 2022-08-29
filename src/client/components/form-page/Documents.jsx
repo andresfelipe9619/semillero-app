@@ -15,7 +15,6 @@ export default function Documents({
   errors,
   isSubmitting,
   modulesByArea,
-  handlePrevPage,
   handleSubmit,
   setFieldValue,
 }) {
@@ -151,15 +150,6 @@ export default function Documents({
           </Alert>
         </Grid>
       )}
-      <Grid item container md={12} justifyContent="flex-start">
-        <Button
-          variant="contained"
-          onClick={handlePrevPage}
-          disabled={isSubmitting}
-        >
-          Anterior
-        </Button>
-      </Grid>
       {isSubmitting && (
         <Grid item md={12}>
           <LinearProgress />
