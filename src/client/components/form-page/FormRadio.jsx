@@ -16,11 +16,11 @@ export default function FormRadioGroup(props) {
     isSubmitting,
   } = props;
   const id = `radio-buttons-group-${name}`;
+  const checked = value => value === values[name];
   return (
-    <FormControl disabled={isSubmitting} error={!!errors[name]}>
+    <FormControl disabled={isSubmitting} error={!!errors[name]} fullWidth>
       <FormLabel id={id}>{legend}</FormLabel>
       <RadioGroup
-        row
         aria-labelledby={id}
         name={name}
         value={values[name]}
@@ -31,7 +31,7 @@ export default function FormRadioGroup(props) {
             <FormControlLabel
               key={value}
               value={value}
-              control={<Radio checked={value === values[name]} />}
+              control={<Radio checked={checked(value)} />}
               label={label}
             />
           );

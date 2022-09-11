@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import TermsAndConditions from './TermsAndConditions';
 import FirstPage from './FirstPage';
@@ -123,7 +123,18 @@ export default function FormPage({
     errors,
     touched,
   };
-  console.log('{ values, errors }', { values, errors });
+
+  useEffect(() => {
+    console.log('{ values, errors }', { values, errors });
+  }, [values, errors]);
+
+  useEffect(() => {
+    console.log('modulesByGrade', modulesByGrade);
+  }, [modulesByGrade]);
+
+  useEffect(() => {
+    console.log('modulesByArea', modulesByArea);
+  }, [modulesByArea]);
 
   if (!accepted) return <TermsAndConditions onClick={handleSellingSoul} />;
 

@@ -196,10 +196,7 @@ export const validationSchema = Yup.object({
   direccion: Yup.string().required(Texts.requiredFields),
   depto_res: Yup.string().required(Texts.requiredFields),
   ciudad_res: Yup.string().required(Texts.requiredFields),
-  comuna_res: Yup.string().when('ciudad_res', {
-    is: 'Cali',
-    then: setFieldRequired,
-  }),
+  comuna_res: Yup.string(),
   eps: Yup.string().required(Texts.requiredFields),
   otraeps: Yup.string().when('eps', {
     is: 'OTRA',
