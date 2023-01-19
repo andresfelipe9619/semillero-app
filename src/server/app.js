@@ -33,6 +33,7 @@ export function isAdmin() {
     'yurany.velasco@correounivalle.edu.co',
     'samuel.ramirez@correounivalle.edu.co',
     'moreno.juan@correounivalle.edu.co',
+    'garciamilton54@gmail.com',
   ];
   Logger.log('guest');
   Logger.log(guest);
