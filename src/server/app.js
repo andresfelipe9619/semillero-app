@@ -34,6 +34,7 @@ export function isAdmin() {
     'samuel.ramirez@correounivalle.edu.co',
     'moreno.juan@correounivalle.edu.co',
     'garciamilton54@gmail.com',
+    'ases.sistemas.regionales@correounivalle.edu.co',
   ];
   Logger.log('guest');
   Logger.log(guest);
