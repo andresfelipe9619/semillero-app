@@ -17,6 +17,7 @@ export default function SecondPage({
   modulesByGrade,
   handlePrevPage,
   handleSubmit,
+  isUserAdmin,
   modules,
   ...formik
 }) {
@@ -44,7 +45,7 @@ export default function SecondPage({
   return (
     <>
       <Card>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{ width: '100%' }}>
           <Grid item md={12}>
             <Typography variant="h2" color="primary">
               Tipo de vinculación:
@@ -54,10 +55,14 @@ export default function SecondPage({
             <FormRadioGroup
               name="convenio"
               options={[
-                { value: 'CONVENIO_COLEGIO', label: 'CONVENIO COLEGIO' },
                 { value: 'PARTICULAR', label: 'PARTICULAR' },
                 { value: 'RELACION_UNIVALLE', label: 'RELACIÓN UNIVALLE' },
-                { value: 'BECADOS', label: 'BECADOS' },
+                ...(isUserAdmin
+                  ? [
+                      { value: 'BECADOS', label: 'BECADOS' },
+                      { value: 'CONVENIO_COLEGIO', label: 'CONVENIO COLEGIO' },
+                    ]
+                  : []),
               ]}
               {...formik}
             />

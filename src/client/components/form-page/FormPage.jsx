@@ -19,6 +19,7 @@ import useErrorHandler from '../../hooks/useErrorHandler';
 export default function FormPage({
   modules,
   editing,
+  isUserAdmin,
   modulesByArea,
   modulesByGrade,
   studentData = {},
@@ -141,6 +142,7 @@ export default function FormPage({
   const formProps = {
     loading,
     modules,
+    isUserAdmin,
     modulesByArea,
     modulesByGrade,
     ...inputProps,

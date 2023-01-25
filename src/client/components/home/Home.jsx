@@ -181,11 +181,13 @@ export default function Home() {
         />
       )}
       {showLoader && <CircularIndeterminate />}
+      {!showForm && !showLoader && <Insights />}
       {!showLoader && showForm && (
         <FormPage
           {...{
             editing,
             modules,
+            isUserAdmin,
             studentData,
             modulesByArea,
             modulesByGrade,
@@ -194,6 +196,10 @@ export default function Home() {
       )}
     </>
   );
+}
+
+function Insights() {
+  return null;
 }
 
 function CircularIndeterminate() {
