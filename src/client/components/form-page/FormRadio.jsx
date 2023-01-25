@@ -8,6 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 export default function FormRadioGroup(props) {
   const {
     name,
+    row = true,
     legend,
     errors,
     options,
@@ -21,6 +22,7 @@ export default function FormRadioGroup(props) {
     <FormControl disabled={isSubmitting} error={!!errors[name]} fullWidth>
       <FormLabel id={id}>{legend}</FormLabel>
       <RadioGroup
+        row={row}
         aria-labelledby={id}
         name={name}
         value={values[name]}

@@ -37,7 +37,7 @@ export default function SecondPage({
   const price = getModulePrice(seleccion, modules, { estamento, convenio });
   const diff = +price - +val_consignado;
   console.log({ grado, allowedModules });
-  const lowercaseGrade = grado.toLowerCase();
+  const lowercaseGrade = String(grado).toLowerCase();
   const modulesToShow = Object.entries(
     (modulesByGrade || {})[lowercaseGrade] || {}
   );
@@ -80,6 +80,7 @@ export default function SecondPage({
                 <Grid item md={12}>
                   <FormRadioGroup
                     name="seleccion"
+                    row={false}
                     options={courses.map(({ nombre, codigo }) => ({
                       value: codigo,
                       label: nombre,
