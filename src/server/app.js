@@ -8,6 +8,7 @@ import {
   getPeriods,
   getCurrentPeriod,
   getModules,
+  getReport,
   getCurrentPeriodStudents,
   getHeadersFromSheet,
   jsonToSheetValues,
@@ -343,6 +344,12 @@ export function getCurrentPeriodData() {
   const modules = sheetValuesToObject(rawModules);
   const currentPeriod = getCurrentPeriod().periodo;
   return { currentPeriod, modules };
+}
+
+export function getReportData() {
+  const raw = getReport();
+  const report = sheetValuesToObject(raw);
+  return { report };
 }
 
 export function buscarPersona(cedula) {

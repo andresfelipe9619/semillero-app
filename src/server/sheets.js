@@ -69,6 +69,11 @@ export function getStudents() {
   return rawStudents;
 }
 
+export function getReport() {
+  const rawReport = getRawDataFromSheet(GENERAL_DB, 'REPORTE');
+  return rawReport;
+}
+
 export function getCurrentPeriodStudents() {
   const rawStudents = getRawDataFromSheet(getCurrentPeriod().link, 'INSCRITOS');
   return rawStudents;

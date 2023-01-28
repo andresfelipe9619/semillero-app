@@ -31,6 +31,7 @@ import {
   editStudentActualPeriod,
   getCurrentPeriodData,
   buscarPersona,
+  getReportData,
   registerStudent,
 } from './app';
 
@@ -38,6 +39,7 @@ export {
   doGet,
   doPost,
   isAdmin,
+  getReportData,
   readRequestParameter,
   editStudent,
   editStudentActualPeriod,
