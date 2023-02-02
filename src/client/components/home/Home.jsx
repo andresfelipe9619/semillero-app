@@ -21,6 +21,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [studentData, setStudentData] = useState(null);
+  const [reportData, setReportData] = useState(null);
   const [modules, setModules] = useState([]);
   const [currentPeriod, setCurrentPeriod] = useState(null);
   const [modulesByArea, setModulesByArea] = useState([]);
@@ -151,6 +152,16 @@ export default function Home() {
     }
   };
 
+  const fetchReportData = async () => {
+    try {
+      const result = await API.getReportData();
+      console.log('result', result);
+      setReportData(result.report);
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
+
   async function init() {
     setLoading(true);
     if (isDev) {
@@ -159,6 +170,7 @@ export default function Home() {
     } else {
       await fetchCurrentPeriodData();
       await fetchModulesByGrades();
+      await fetchReportData();
     }
     setLoading(false);
   }
@@ -181,7 +193,7 @@ export default function Home() {
         />
       )}
       {showLoader && <CircularIndeterminate />}
-      {!showForm && !showLoader && <Insights />}
+      {!showForm && !showLoader && <Insights data={reportData} />}
       {!showLoader && showForm && (
         <FormPage
           {...{
@@ -198,8 +210,9 @@ export default function Home() {
   );
 }
 
-function Insights() {
-  return null;
+function Insights({ data }) {
+  if (!data) return null;
+  return JSON.stringify(data, null, 2);
 }
 
 function CircularIndeterminate() {

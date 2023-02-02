@@ -85,6 +85,7 @@ export default function SecondPage({
                 <Grid item md={12}>
                   <FormRadioGroup
                     name="seleccion"
+                    row={false}
                     options={courses.map(({ nombre, codigo }) => ({
                       value: codigo,
                       label: nombre,
