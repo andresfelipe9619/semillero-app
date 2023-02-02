@@ -7,6 +7,7 @@ import FormPage from '../form-page/FormPage';
 import Navbar from '../navbar/Navbar';
 import { mockData, mockDataByGrade } from '../../mock-data';
 import { serverFunctions as API } from '../../utils/serverFunctions';
+import Report from './Report';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -21,7 +22,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [studentData, setStudentData] = useState(null);
-  const [reportData, setReportData] = useState(null);
+  const [reportData, setReportData] = useState([]);
   const [modules, setModules] = useState([]);
   const [currentPeriod, setCurrentPeriod] = useState(null);
   const [modulesByArea, setModulesByArea] = useState([]);
@@ -193,7 +194,7 @@ export default function Home() {
         />
       )}
       {showLoader && <CircularIndeterminate />}
-      {!showForm && !showLoader && <Insights data={reportData} />}
+      {!showForm && !showLoader && <Report data={reportData} />}
       {!showLoader && showForm && (
         <FormPage
           {...{
@@ -208,11 +209,6 @@ export default function Home() {
       )}
     </>
   );
-}
-
-function Insights({ data }) {
-  if (!data) return null;
-  return JSON.stringify(data, null, 2);
 }
 
 function CircularIndeterminate() {
