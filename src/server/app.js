@@ -12,6 +12,8 @@ import {
   getCurrentPeriodStudents,
   getHeadersFromSheet,
   jsonToSheetValues,
+  getCourseActiveByPeriod,
+  getLenghtModuleActive
 } from './sheets';
 
 const GENERAL_DB =
@@ -36,6 +38,7 @@ export function isAdmin() {
     'moreno.juan@correounivalle.edu.co',
     'garciamilton54@gmail.com',
     'ases.sistemas.regionales@correounivalle.edu.co',
+    'cristian.machado@correounivalle.edu.co'
   ];
   Logger.log('guest');
   Logger.log(guest);

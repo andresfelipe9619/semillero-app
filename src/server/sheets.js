@@ -100,3 +100,70 @@ export function jsonToSheetValues(json, headers) {
 
   return arrayValues;
 }
+
+export function getCourseActiveByPeriod() {
+
+    const data_period = getPeriods();
+    const activePeriods = data_period.filter( period => (period.activo).toLowerCase() === 'x');
+    const link_sheet = activePeriods[0].link;
+    const spreadsheet_ = SpreadsheetApp.openByUrl(link_sheet);
+    const sheets_ = spreadsheet_.getSheets();
+
+    let sheetIds = []
+    // Obtener los IDs de las hojas de cálculo
+    sheets_.map(sheet => {  
+
+      sheetIds.push({ id_: sheet.getSheetId() , "name_": sheet.getName() }) 
+    
+    });
+
+    Logger.log(sheetIds + "sheetIds");
+    Logger.log(sheets_ + "sheetIds");
+    const data_modules = sheetValuesToObject(getModules());
+    
+    const { active: modules_desactive , desactive: modules_active } = data_modules.reduce((result, module) => {
+      const isActive = (module.disabled).toLowerCase() === 'x';
+      sheetIds.find( sheet => {
+        if (sheet.name_ === module.nombre) {
+          module.id_sheet = sheet.id_;
+        }
+      })
+      result[isActive ? 'active' : 'desactive'].push({ name: module.nombre , 
+                                                       codigo: module.codigo , 
+                                                       inscritos: 0,
+                                                       id_sheet: `${link_sheet}#gid=${module.id_sheet}`});
+      return result;
+    }, { active: [], desactive: [] });
+    
+
+   
+    return {
+       active: modules_active,
+       desactive: modules_desactive,
+       link: link_sheet
+    }
+    
+}
+
+export function getLenghtModuleActive() {
+
+    const data_general = getCourseActiveByPeriod();
+    let  reporte_ = [ ]
+    let  total_inscritos = 0;
+
+    data_general.active.map( (element, index) => {
+        const data_sheet = getRawDataFromSheet(data_general.link, element.name);
+        //insertar dentro del elemento el numero de estudiantes
+          data_general.active[index].inscritos = data_sheet.length - 1;
+          total_inscritos += data_sheet.length - 1;
+    })
+
+    reporte_ = reporte_.concat(data_general.active, []);
+    Logger.log(reporte_ , "reporte");
+
+    return {
+           "reporte_": reporte_,
+           "total_inscritos": total_inscritos
+    }
+
+} 

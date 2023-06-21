@@ -14,10 +14,15 @@ export const GOOGLE_URL =
   'https://accounts.google.com/SignUp?service=mail&hl=es&continue=http%3A%2F%2Fmail.google.com%2Fmail%2F%3Fpc%3Des-ha-latam-co-bk-xplatform1&utm_campaign=es&utm_source=es-ha-latam-co-bk-xplatform1&utm_medium=ha';
 
 export const DocumentTypeOptions = [
-  { value: 'T.I', label: 'T.I' },
-  { value: 'C.C', label: 'C.C' },
-  { value: 'C.E', label: 'Cedula de Extrangería' },
-  { value: 'R.C', label: 'Registro Civil' },
+  { value: 'T.I', label: 'T.I.' },
+  { value: 'C.C', label: 'C.C.' },
+  { value: 'C.E', label: 'C.E.' },
+  { value: 'R.C', label: 'NUIP' },
+];
+
+export const DocumentTypeOptionsAcudiente = [
+  { value: 'C.C', label: 'C.C.' },
+  { value: 'C.E', label: 'C.E' },
 ];
 
 export const GenreOptions = [

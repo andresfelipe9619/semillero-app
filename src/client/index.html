@@ -9,6 +9,51 @@
     />
   </head>
   <body>
+    <style>
+      
+      ._container_table_admin {
+          display: flex;
+          align-items: center;
+          gap: 4em;
+      }
+
+      ._container_table_img {
+          display: flex;
+          width: 20em;
+          position: fixed;
+          top: 1em;
+          right: 1em;
+          height: 100%;
+          z-index: 1;
+          overflow: hidden;
+      }
+
+      ._container_table_img img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          z-index: 1;
+      }
+
+      ._container_principal input {
+          text-transform: uppercase;
+      }
+
+      ._container_logo_form {
+          position: absolute;
+          top: -3.4em;
+          right: 0;
+          width: 10em;
+          height: 10em;
+      }
+
+      ._container_logo_form img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+      }
+      
+    </style>
     <main id="index">
       <!-- bundled js and css will get inlined here during build -->
     </main>

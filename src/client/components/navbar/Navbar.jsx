@@ -11,7 +11,7 @@ export default function Navbar({ loading, handleSearch, handleRegister }) {
     setDocumentToSearch(value);
   }
   return (
-    <Box sx={{ flexGrow: 1 }} bgcolor={'white'}>
+    <Box sx={{ flexGrow: 1 , zIndex: 10 , position: 'relative'}} bgcolor={'white'}>
       <AppBar position="static" color="inherit">
         <Toolbar>
           <Typography

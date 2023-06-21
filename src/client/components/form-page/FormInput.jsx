@@ -27,6 +27,7 @@ export default function FormInput({
   errors,
   touched,
 }) {
+  console.log('FormInput', name, values[name] , 'Maldito Bug');
   const isEmail = type === 'email';
   return (
     <TextField
@@ -37,7 +38,8 @@ export default function FormInput({
       disabled={disabled || isSubmitting}
       onBlur={handleBlur}
       onChange={handleChange}
-      value={values[name] || ''}
+      value={ ((values[name] !== undefined) ? 
+               values[name].toLowerCase() : '')}
       type={type}
       error={!!touched[name] && !!errors[name]}
       variant="outlined"

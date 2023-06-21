@@ -50,7 +50,11 @@ export default function FirstPage({ modules, ...formik }) {
 
   return (
     <Card useRight={false}>
-      <Grid container spacing={3}>
+      <Grid sx={{ position: 'relative'}}
+            className='_container_principal' container spacing={3}>
+      {/* <div className='_container_logo_form'>
+        <img src="https://drive.google.com/uc?id=1N-iOqjZ-CNibL9txy7ULUCt3jXw_DQXc" alt="logo semillero" />
+      </div> */}
         <Grid
           item
           md={12}
