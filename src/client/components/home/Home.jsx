@@ -156,7 +156,7 @@ export default function Home() {
   const fetchReportData = async () => {
     try {
       const result = await API.getLenghtModuleActive();
-      console.log('result', result);
+    
       setReportData(result);
     } catch (error) {
       errorHandler(error);

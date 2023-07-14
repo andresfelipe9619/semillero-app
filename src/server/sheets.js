@@ -117,8 +117,6 @@ export function getCourseActiveByPeriod() {
     
     });
 
-    Logger.log(sheetIds + "sheetIds");
-    Logger.log(sheets_ + "sheetIds");
     const data_modules = sheetValuesToObject(getModules());
     
     const { active: modules_desactive , desactive: modules_active } = data_modules.reduce((result, module) => {
@@ -147,23 +145,29 @@ export function getCourseActiveByPeriod() {
 
 export function getLenghtModuleActive() {
 
+   try {
     const data_general = getCourseActiveByPeriod();
-    let  reporte_ = [ ]
+  
+    let  reporte_ = []
     let  total_inscritos = 0;
-
+    
     data_general.active.map( (element, index) => {
         const data_sheet = getRawDataFromSheet(data_general.link, element.name);
         //insertar dentro del elemento el numero de estudiantes
-          data_general.active[index].inscritos = data_sheet.length - 1;
-          total_inscritos += data_sheet.length - 1;
+        data_general.active[index].inscritos = data_sheet.length - 1;
+        total_inscritos += data_sheet.length - 1;
     })
 
-    reporte_ = reporte_.concat(data_general.active, []);
-    Logger.log(reporte_ , "reporte");
+     reporte_ = reporte_.concat(data_general.active, []);
+     Logger.log(reporte_ , "reporte");
 
     return {
            "reporte_": reporte_,
-           "total_inscritos": total_inscritos
+           "total_inscritos": 0
     }
 
+   }
+    catch (error) {
+      Logger.log(error);
+    }
 } 
