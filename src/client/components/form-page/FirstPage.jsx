@@ -26,13 +26,14 @@ import {
   DiscapacidadOptions,
   DiscapacidadOptionsAll
 } from './form-settings';
-import { doc } from 'prettier';
+// import { doc } from 'prettier';
 
 const createEmail = () => window.open(GOOGLE_URL);
 
 export default function FirstPage({ modules, ...formik }) {
   const [avatar, setAvatar] = useState(null);
   const errorHandler = useErrorHandler();
+  const [IsDesabilitado, setIsDesabilitado] = useState(false);
 
   const hasAnotherEPS = formik?.values?.eps === 'OTRA';
   const caliIsCali = formik?.values?.ciudad_res === 'Cali';
@@ -50,6 +51,17 @@ export default function FirstPage({ modules, ...formik }) {
       errorHandler(error);
     }
   }
+
+  React.useEffect(() => {
+    // DiscapacidadOptionsAll
+    const { discapacidad } = formik.values;
+    if(discapacidad === 'SI'){
+      setIsDesabilitado(true);
+    }
+    else {
+      setIsDesabilitado(false);
+    }
+  } , [formik.values.discapacidad]);
 
   return (
     <Card useRight={false}>
@@ -248,6 +260,7 @@ export default function FirstPage({ modules, ...formik }) {
         <Grid item md={6}>
           <FormSelect
             options={DiscapacidadOptions}
+            handleChange={handleOnChangeDiscapacidad}
             label="Discapacidad"
             name={'discapacidad'}
             {...formik}
