@@ -8,7 +8,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 export default function Report({ data = {} }) {
-  console.log('data', data);
+  
+  const [reporte, setReporte] = React.useState([]);
+
+  React.useEffect(() => {
+    setReporte(data.reporte_);
+  }, [data]);
+
   return (
   <div className='_container_table_admin'>
       <TableContainer component={Paper} sx={{ m: 2, maxWidth: 640 }}>
@@ -20,17 +26,29 @@ export default function Report({ data = {} }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {(data['reporte_']).map(row => (
-              <TableRow
-                key={row.codigo}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
+            {
+              (reporte.length === 0) ?
+              (<TableRow
+                  key={123}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
                 <TableCell component="th" scope="row">
-                  <a style={{  color: 'inherit'}} href={row.id_sheet} target="_blank">{row.name}</a>
+                      <strong  className='_loader_info'> <h1>Cargando Informacion</h1></strong>
                 </TableCell>
-                <TableCell align="right">{row.inscritos}</TableCell>
-              </TableRow>
-            ))}
+              </TableRow>)
+              : 
+              (data['reporte_']).map(row => (
+                <TableRow
+                  key={row.codigo}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <a style={{  color: 'inherit'}} href={row.id_sheet} target="_blank">{row.name}</a>
+                  </TableCell>
+                  <TableCell align="right">{row.inscritos}</TableCell>
+                </TableRow>
+              ))
+            }
              <TableRow
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >

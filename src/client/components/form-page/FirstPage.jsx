@@ -23,7 +23,10 @@ import {
   GOOGLE_URL,
   GradeOptions,
   SUPPORTED_IMAGE_FORMATS,
+  DiscapacidadOptions,
+  DiscapacidadOptionsAll
 } from './form-settings';
+import { doc } from 'prettier';
 
 const createEmail = () => window.open(GOOGLE_URL);
 
@@ -242,6 +245,26 @@ export default function FirstPage({ modules, ...formik }) {
             {...formik}
           />
         </Grid>
+        <Grid item md={6}>
+          <FormSelect
+            options={DiscapacidadOptions}
+            label="Discapacidad"
+            name={'discapacidad'}
+            {...formik}
+          />
+        </Grid>
+        {
+          IsDesabilitado && (
+            <Grid item md={6}>
+            <FormSelect
+              options={DiscapacidadOptionsAll}
+              label="Tipo De Discapacidad"
+              name={'tipo_discapacidad'}
+              {...formik}
+            />
+            </Grid>
+          )
+        }
         <Grid item md={6}>
           <FormSwitch
             label="Se ha inscrito antes en algun curso?"

@@ -31,6 +31,21 @@ export const GenreOptions = [
   { value: 'OTRO', label: 'Otro' },
 ];
 
+export const DiscapacidadOptions = [
+  { value: 'NO', label: 'No' },
+  { value: 'SI', label: 'Si' },
+];
+
+export const DiscapacidadOptionsAll = [
+  { value: "Auditiva" , label: "Auditiva" },
+  { value: "Fisica" , label: "Fisica" },
+  { value: "Intelectual" , label: "Intelectual" },
+  { value: "Visual" , label: "Visual" },
+  { value: "Sordoceguera" , label: "Sordoceguera" },
+  { value: "Psicosocial" , label: "Psicosocial" },
+  { value: "Multiple" , label: "Multiple" }
+]
+
 export const EPSOptions = EPSs.map(eps => ({ value: eps, label: eps }));
 
 export const NumberOfSchoolGrades = 11;
@@ -120,6 +135,11 @@ export const initialValues = {
   recibosPublicos: '',
   cartaSolicitud: '',
   actaGrado: '',
+  tipo_doc_acudiente: '',
+  num_doc_acudiente: '',
+  direc_accudiente: '',
+  facturacion_email: '',
+  discapacidad: '',
 };
 
 export const testValues = {
@@ -255,4 +275,10 @@ export const validationSchema = Yup.object({
     is: val => ['EGRESADO'].includes(val),
     then: setFileRequired,
   }),
+  tipo_doc_acudiente: Yup.string().required(Texts.requiredFields),
+  num_doc_acudiente: Yup.string().required(Texts.requiredFields),
+  direc_accudiente: Yup.string().required(Texts.requiredFields),
+  facturacion_email: Yup.string()
+  .matches(UnivalleRegex, Texts.invalidEmail)
+  .required(Texts.requiredFields)
 });

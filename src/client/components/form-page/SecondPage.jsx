@@ -17,7 +17,7 @@ import {
   DocumentTypeOptions,
   DocumentTypeOptionsAcudiente
 } from './form-settings';
-
+//
 export default function SecondPage({
   modulesByArea,
   modulesByGrade,
