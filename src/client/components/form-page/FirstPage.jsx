@@ -34,6 +34,7 @@ export default function FirstPage({ modules, ...formik }) {
   const [avatar, setAvatar] = useState(null);
   const errorHandler = useErrorHandler();
   const [IsDesabilitado, setIsDesabilitado] = useState(false);
+  const [IsOtherGender, setIsOtherGender] = useState(false);
 
   const hasAnotherEPS = formik?.values?.eps === 'OTRA';
   const caliIsCali = formik?.values?.ciudad_res === 'Cali';
@@ -53,7 +54,6 @@ export default function FirstPage({ modules, ...formik }) {
   }
 
   React.useEffect(() => {
-    // DiscapacidadOptionsAll
     const { discapacidad } = formik.values;
     if(discapacidad === 'SI'){
       setIsDesabilitado(true);
@@ -62,6 +62,20 @@ export default function FirstPage({ modules, ...formik }) {
       setIsDesabilitado(false);
     }
   } , [formik.values.discapacidad]);
+
+  React.useEffect(() => {
+    const { genero } = formik.values;
+    const element = document.getElementById("space_of_genero");
+
+    if(genero === 'OTRO'){
+      setIsOtherGender(true);
+      element.style.display = "none";
+    }
+    else {
+      setIsOtherGender(false);
+      element.style.display = "block";
+    }
+  }, [formik.values.genero]);
 
   return (
     <Card useRight={false}>
@@ -163,12 +177,23 @@ export default function FirstPage({ modules, ...formik }) {
         <Grid item md={6}>
           <FormRadioGroup
             name="genero"
-            legend={'Genero'}
+            legend={'Género'}
             options={GenreOptions}
             {...formik}
           />
         </Grid>
-        <Grid item md={6}></Grid>
+        {
+          IsOtherGender && (
+            <Grid item md={6}>
+              <FormInput
+                label="Otro Genero"
+                name={'otro_genero'}
+                {...formik}
+              />
+          </Grid>
+          )
+        }
+        <Grid id="space_of_genero" item md={6}></Grid>
         <Grid item md={6}>
           <FormDateInput
             label="Fecha Nacimiento"
@@ -260,7 +285,6 @@ export default function FirstPage({ modules, ...formik }) {
         <Grid item md={6}>
           <FormSelect
             options={DiscapacidadOptions}
-            handleChange={handleOnChangeDiscapacidad}
             label="Discapacidad"
             name={'discapacidad'}
             {...formik}
