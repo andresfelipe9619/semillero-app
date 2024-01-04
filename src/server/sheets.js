@@ -163,7 +163,7 @@ export function getLenghtModuleActive() {
 
     return {
            "reporte_": reporte_,
-           "total_inscritos": 0
+           "total_inscritos": total_inscritos
     }
 
    }

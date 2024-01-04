@@ -291,15 +291,22 @@ export default function FirstPage({ modules, ...formik }) {
           />
         </Grid>
         {
-          IsDesabilitado && (
-            <Grid item md={6}>
-            <FormSelect
-              options={DiscapacidadOptionsAll}
-              label="Tipo De Discapacidad"
-              name={'tipo_discapacidad'}
-              {...formik}
-            />
+          IsDesabilitado && (<>
+            <Grid item md={3}>
+              <FormSelect
+                options={DiscapacidadOptionsAll}
+                label="Tipo De Discapacidad"
+                name={'tipo_discapacidad'}
+                {...formik}
+              />
             </Grid>
+            <Grid item md={3}>
+              <FormInput
+                label="Informacion Discapacidad"
+                name={'info_discapacidad'}
+                {...formik}
+              />
+            </Grid></>
           )
         }
         <Grid item md={6}>

@@ -215,9 +215,11 @@ function validatePerson(cedula) {
     index: -1,
     data: null,
   };
-  const currentPeriod = getCurrentPeriod().periodo;
+  const currentPeriod = getCurrentPeriod().periodo;//aqui
   const textFinder = sheet.createTextFinder(cedula);
+
   const studentFound = textFinder.findNext();
+
   const studentIndex = studentFound ? studentFound.getRow() : -1;
   if (studentIndex <= -1) return result;
 
@@ -236,7 +238,6 @@ function validatePerson(cedula) {
   result.index = studentIndex;
   result.state = isFromCurrentPeriod ? 'actual' : 'antiguo';
   result.data = studentData;
-  Logger.log(result);
   Logger.log('=============END Validating Person===========');
   return result;
 }
