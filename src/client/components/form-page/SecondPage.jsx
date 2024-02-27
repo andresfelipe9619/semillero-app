@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Grid, Typography, Divider } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Card from '../card/Card';
 import FormInput from './FormInput';
 import {
@@ -36,7 +36,11 @@ export default function SecondPage({
     val_consignado = 0,
   } = formik.values;
   const oldCourse = modules.find(m => m.nombre === curso_anterior);
-
+  const [isDocente , setDocente] = React.useState(false);
+  const valuesOptionsDocente = [
+    { value: 'PARTICULAR', label: 'PARTICULAR' },
+    { value: 'red_docente', label: 'RED DOCENTE' },
+  ]
   const allowedModules = getAllowedModulesByPrerequisiteModule(
     modules,
     oldCourse?.codigo
@@ -48,6 +52,11 @@ export default function SecondPage({
   const modulesToShow = Object.entries(
     (modulesByGrade || {})[lowercaseGrade] || {}
   );
+
+  React.useEffect( () => {
+    setDocente(lowercaseGrade == 'docente');
+  }, [lowercaseGrade])
+
   return (
     <>
       <Card>
@@ -60,7 +69,9 @@ export default function SecondPage({
           <Grid item md={12}>
             <FormRadioGroup
               name="convenio"
-              options={[
+              options={
+                isDocente? valuesOptionsDocente :
+              [
                 { value: 'PARTICULAR', label: 'PARTICULAR' },
                 { value: 'RELACION_UNIVALLE', label: 'RELACIÓN UNIVALLE' },
                 ...(isUserAdmin

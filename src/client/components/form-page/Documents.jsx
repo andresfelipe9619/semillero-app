@@ -27,6 +27,7 @@ export default function Documents({
   const isCapucho = convenio === 'RELACION_UNIVALLE';
   const isScholar = convenio === 'BECADOS';
   const isSchoolAgreement = convenio === 'CONVENIO_COLEGIO';
+  const isDocente = convenio === 'red_docente'
 
   const isGraduated = grado === 'EGRESADO';
   // const isLastPhase = grado === 11 || isGraduated;
@@ -74,6 +75,11 @@ export default function Documents({
       name: 'cartaSolicitud',
       label: 'Carta Solicitud',
       display: isScholar,
+    },
+    {
+      name: 'carnedocente',
+      label: 'Carné Red Docente',
+      display: isDocente,
     },
     { name: 'actaGrado', label: 'Acta Grado', display: isGraduated },
   ];

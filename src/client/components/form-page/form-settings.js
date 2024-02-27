@@ -51,10 +51,17 @@ export const EPSOptions = EPSs.map(eps => ({ value: eps, label: eps }));
 export const NumberOfSchoolGrades = 11;
 
 export const GradeOptions = Array.from(
-  { length: NumberOfSchoolGrades + 1 },
+  { length: NumberOfSchoolGrades + 2 },
   (_, i) => {
     const isLast = i === NumberOfSchoolGrades;
     const grade = i + 1;
+    // todo: Mejorar para Isabela
+    if (i >= (NumberOfSchoolGrades+1)) {
+      return {
+        value: 'DOCENTE',
+        label: 'Docente',
+      };
+    }
     return {
       value: isLast ? 'EGRESADO' : grade,
       label: isLast ? 'Egresado colegios' : `${grade}°`,
@@ -77,6 +84,7 @@ export const filesByName = [
   'recibosPublicos',
   'cartaSolicitud',
   'actaGrado',
+  'carnedocente'
 ];
 
 export function checkIfFileIsTooBig(file) {
@@ -140,6 +148,7 @@ export const initialValues = {
   direc_accudiente: '',
   facturacion_email: '',
   discapacidad: '',
+  carnedocente: ''
 };
 
 export const testValues = {
@@ -265,6 +274,10 @@ export const validationSchema = Yup.object({
     .test('is-correct-file', Texts.invalidFileType, checkIfFileIsCorrectType),
   recibosPublicos: Yup.mixed().when(['convenio'], {
     is: val => ['BECADOS'].includes(val),
+    then: setFileRequired,
+  }),
+  carnedocente:Yup.mixed().when(['convenio'], {
+    is: val => ['red_docente'].includes(val),
     then: setFileRequired,
   }),
   cartaSolicitud: Yup.mixed().when(['convenio'], {

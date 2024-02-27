@@ -126,10 +126,12 @@ export function getCourseActiveByPeriod() {
           module.id_sheet = sheet.id_;
         }
       })
-      result[isActive ? 'active' : 'desactive'].push({ name: module.nombre , 
-                                                       codigo: module.codigo , 
-                                                       inscritos: 0,
-                                                       id_sheet: `${link_sheet}#gid=${module.id_sheet}`});
+      result[isActive ? 'active' : 'desactive'].push({ 
+        name: module.nombre ,
+        codigo: module.codigo ,
+        inscritos: 0,
+        id_sheet: `${link_sheet}#gid=${module.id_sheet}`
+      });
       return result;
     }, { active: [], desactive: [] });
     
@@ -144,30 +146,29 @@ export function getCourseActiveByPeriod() {
 }
 
 export function getLenghtModuleActive() {
+    try {
+        const data_general = getCourseActiveByPeriod();
 
-   try {
-    const data_general = getCourseActiveByPeriod();
-  
-    let  reporte_ = []
-    let  total_inscritos = 0;
-    
-    data_general.active.map( (element, index) => {
+        let  reporte_ = []
+        let  total_inscritos = 0;
+
+        data_general.active.map( (element, index) => {
         const data_sheet = getRawDataFromSheet(data_general.link, element.name);
+
         //insertar dentro del elemento el numero de estudiantes
         data_general.active[index].inscritos = data_sheet.length - 1;
-        total_inscritos += data_sheet.length - 1;
-    })
+          total_inscritos += data_sheet.length - 1;
+        })
 
-     reporte_ = reporte_.concat(data_general.active, []);
-     Logger.log(reporte_ , "reporte");
+        reporte_ = reporte_.concat(data_general.active, []);
+        Logger.log(reporte_ , "reporte");
 
-    return {
-           "reporte_": reporte_,
-           "total_inscritos": total_inscritos
-    }
+        return {
+          "reporte_": reporte_,
+          "total_inscritos": total_inscritos
+        }
 
-   }
-    catch (error) {
+    } catch (error) {
       Logger.log(error);
     }
-} 
+}
