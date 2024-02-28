@@ -175,7 +175,7 @@ export default function SecondPage({
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <FormInput label="Nombre Acudiente" name={'nombre_acudiente'} {...formik} />
+              <FormInput label="Nombre Acudiente o Contacto" name={'nombre_acudiente'} {...formik} />
             </Grid>
             <Grid item xs={12} md={2}>
               <FormSelect label="Tipo" name={'tipo_doc_acudiente'} options={DocumentTypeOptionsAcudiente} {...formik} />

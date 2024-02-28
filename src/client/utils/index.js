@@ -45,6 +45,7 @@ export const getFileName = (fileKey, doc) => {
   if (fileKey === 'cartaSolicitud') return `${doc}_CARTA_SOLICITUD`;
   if (fileKey === 'actaGrado') return `${doc}_ACTA_GRADO`;
   if (fileKey === 'photo') return `${doc}_FOTO_PERFIL`;
+  if (fileKey === 'carnedocente') return `${doc}_CARNE_DOCENTE`;
   return null;
 };
 

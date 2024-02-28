@@ -49,17 +49,23 @@ export default function Documents({
 
   const isShortCourse = isModuleShortCourse(curso);
 
+  const handlerIIsConstance = () => {
+    let response = false
+    let isConstance = (!isShortCourse && !isSchoolAgreement && !isGraduated && !isFresita)
+    if (!isDocente) {
+      response = (isPublic || isCoverage || isScholar || isConstance)
+    }
+
+    return response
+  }
+
   const FormFiles = [
     { name: 'docFile', label: 'Documento Identidad', display: true },
     { name: 'reciboFile', label: 'Recibo de Pago', display: true },
     {
       name: 'constanciaEstudFile',
       label: 'Constancia Estudio',
-      display:
-        isPublic ||
-        isCoverage ||
-        isScholar ||
-        (!isShortCourse && !isSchoolAgreement && !isGraduated && !isFresita),
+      display: handlerIIsConstance()
     },
     {
       name: 'constanciaFuncFile',

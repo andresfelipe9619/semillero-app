@@ -270,7 +270,7 @@ export default function FirstPage({ modules, ...formik }) {
         </Grid>
         <Grid item md={6}>
           <FormInput
-            label="Nombre Acudiente"
+            label="Nombre Acudiente o Contacto"
             name={'nombre_acudiente'}
             {...formik}
           />

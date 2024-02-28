@@ -27,9 +27,8 @@ export default function FormInput({
   errors,
   touched,
 }) {
-  //console.log('FormInput', name, typeof values[name] ,values[name] === undefined , 'Maldito Bug');
   const value__ = ((values[name] !== undefined && values[name] !== null)? (typeof values[name] === 'string')? (values[name]).toLowerCase() : values[name] : '')
-  //console.log('FormInput', name, value__, '___');
+
   const isEmail = type === 'email';
   return (
     <TextField
