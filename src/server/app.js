@@ -38,7 +38,8 @@ export function isAdmin() {
     'moreno.juan@correounivalle.edu.co',
     'garciamilton54@gmail.com',
     'ases.sistemas.regionales@correounivalle.edu.co',
-    'cristian.machado@correounivalle.edu.co'
+    'cristian.machado@correounivalle.edu.co',
+    'isabela.rosero@correounivalle.edu.co'
   ];
   Logger.log('guest');
   Logger.log(guest);
