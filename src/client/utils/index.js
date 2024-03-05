@@ -6,12 +6,21 @@ export const getModulePrice = (choice, modules, { estamento, convenio }) => {
   if (estamento === 'COBERTURA') price = module?.precio_cobertura;
   if (convenio === 'RELACION_UNIVALLE') price = module?.precio_univalle;
   if (convenio === 'red_docente') price = module?.red_docente;
-  if (convenio === 'PARTICULAR') price = module?.precio_particular;
+  if (convenio === 'PARTICULAR') {
+    if (estamento === 'PRIVADO') {
+      price = module?.precio_privado;
+    } else if (estamento === 'PUBLICO') {
+      price = module?.precio_publico;
+    } else if (estamento === 'COBERTURA') {
+      price = module?.precio_cobertura;
+    }
+  }
   if (convenio === 'BECADOS') {
     price = 0;
   }
   return price;
 };
+
 
 export function getPaymentLink(modules, formValues) {
   const { moduleCode, estamento, convenio } = formValues;
